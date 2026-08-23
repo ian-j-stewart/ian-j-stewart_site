@@ -2,9 +2,12 @@
 
 This file tracks missing, incomplete or unverified content for the site. Review before declaring the site final.
 
+## Added assets
+
+- `src/assets/ian-stewart.jpg`: a portrait has been added for the homepage hero. The owner should confirm it is the image they want to use and that they are happy with the crop.
+
 ## Missing assets
 
-- `src/assets/ian-stewart.jpg`: authorise and add a professional portrait when available; the hero and About page will render as text-only until this file is supplied.
 - `public/ian-j-stewart-cv.pdf`: upload an academic CV when available; the download button is hidden until this file is supplied.
 
 ## Missing profile and contact information
