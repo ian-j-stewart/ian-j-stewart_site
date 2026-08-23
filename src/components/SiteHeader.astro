@@ -1,14 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import ExternalLink from './ExternalLink.astro';
+
 
 interface Props {
   settings: CollectionEntry<'settings'>;
 }
 
 const { settings } = Astro.props;
-const { navigation, person } = settings.data;
-const cns = person?.cns;
+const { navigation } = settings.data;
 ---
 
 <header class="site-header">
@@ -31,9 +30,6 @@ const cns = person?.cns;
         {navigation.map((item) => (
           <li><a href={item.href} class="nav-link">{item.label}</a></li>
         ))}
-        {cns && (
-          <li><ExternalLink href={cns} class="nav-link">CNS</ExternalLink></li>
-        )}
       </ul>
     </nav>
   </div>

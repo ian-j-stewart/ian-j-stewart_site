@@ -1,20 +1,21 @@
 siteTitle: Ian J. Stewart
-siteDescription: Ian J. Stewart is an international security scholar and practitioner researching strategic technology governance, AI and compute, export controls, research security, semiconductors, nuclear nonproliferation and deterrence.
+siteDescription: Ian J. Stewart is an international-security scholar and practitioner researching strategic technology governance, AI and compute, export controls, research security, semiconductors, nuclear nonproliferation and deterrence.
 siteUrl: https://ian-j-stewart.com
 author: Ian J. Stewart
 institution:
   title: Executive Director, Washington, DC office
   name: James Martin Center for Nonproliferation Studies
-  url: https://nonproliferation.org/people/ian-stewart
+  url: https://www.middlebury.edu/institute/people/ian-stewart
 contact:
   linkedin: https://www.linkedin.com/in/drianjstewart/
+  advisoryEmail: ian@fusionlabs.info
 social: []
 navigation:
   - label: Research
     href: /research/
   - label: Publications
     href: /publications/
-  - label: Projects
+  - label: Current Research
     href: /projects/
   - label: Essays
     href: /essays/
@@ -24,7 +25,7 @@ navigation:
     href: /about/
 person:
   linkedin: https://www.linkedin.com/in/drianjstewart/
-  cns: https://nonproliferation.org/people/ian-stewart
+  cns: https://nonproliferation.org/experts/ian_stewart/
   fusionlabs: https://www.fusionlabs.info/
   nonproarchive: https://www.nonproarchive.com/
 footer:

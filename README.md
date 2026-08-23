@@ -1,6 +1,6 @@
 # ian-j-stewart.com
 
-Personal academic website for Dr Ian J. Stewart — an international security scholar researching the governance of strategic technology, including export controls, AI and compute, semiconductors, research security, nuclear nonproliferation and deterrence.
+Personal academic website for Dr Ian J. Stewart — an international-security scholar researching the governance of strategic technology, including export controls, AI and compute, semiconductors, research security, nuclear nonproliferation and deterrence.
 
 ## Technology
 
@@ -47,85 +47,92 @@ npm run check
 
 This runs `astro check` and TypeScript validation.
 
-## Repository structure
+## Quality checks
 
+```bash
+npm run verify
 ```
-.
-├── .github/workflows/ci.yml   # CI: install, check, build
-├── .pages.yml                 # Pages CMS configuration
-├── astro.config.mjs           # Astro site config
-├── src/content.config.ts      # Astro content collection schemas
-├── src/content/               # Editable content
-│   ├── settings/site.yml      # Global site settings
-│   ├── pages/                 # Singleton pages
-│   ├── research-themes/       # Research theme entries
-│   ├── publications/          # Publications
-│   ├── projects/              # Projects
-│   └── essays/                # Essays
-├── src/components/            # Reusable Astro components
-├── src/layouts/               # Page layouts
-├── src/pages/                 # Page routes
-├── src/styles/global.css      # Global CSS
-├── public/                    # Static assets
-└── dist/                      # Build output (ignored by git)
-```
+
+This runs a Node.js script that checks the built `dist/` for:
+
+- exactly one `<h1>` per page;
+- visible raw taxonomy slugs;
+- missing image `alt` text;
+- broken internal links;
+- that the 2023 and 2025 peer-reviewed articles are not marked `Forthcoming`.
 
 ## Content collections
 
 Collections are defined in `src/content.config.ts` and stored in `src/content/`.
 
+| Collection | Path | Purpose |
+|------------|------|---------|
+| `settings` | `src/content/settings/site.yml` | Site title, contact, navigation, featured items |
+| `pages` | `src/content/pages/` | Singleton pages (home, about, research, engagement) |
+| `researchThemes` | `src/content/research-themes/` | Three research themes with related content |
+| `publications` | `src/content/publications/` | Books, articles, reports, commentary, outputs |
+| `projects` | `src/content/projects/` | Current research agendas |
+| `essays` | `src/content/essays/` | Local and externally linked essays |
+
 ## Pages CMS
 
 `.pages.yml` configures the browser-based Pages CMS. It provides editors for:
 
-- Site settings (`src/content/settings/site.yml`)
-- Singleton pages (`home.md`, `research.md`, `engagement.md`, `about.md`)
+- Site settings
+- Singleton pages
 - Research themes
 - Publications
-- Projects
+- Current research
 - Essays
 - Media uploads to `public/assets/`
 
 ## How to add a publication
 
-1. Go to the **Publications** collection in Pages CMS.
-2. Create a new entry, or add a Markdown file to `src/content/publications/`.
-3. Fill in title, year, type, venue and status.
-4. Add the abstract in the body.
+1. Create a Markdown file in `src/content/publications/` or use the **Publications** collection in Pages CMS.
+2. Fill in title, authors, year, `type`, `status`, `venue` and `ianRole`.
+3. Add a DOI, `externalUrl`, `publisherUrl` or `pdfUrl` where available.
+4. Add an abstract in the body.
 5. Mark `draft: true` until it is ready.
-
-## How to add a project
-
-1. Go to the **Projects** collection.
-2. Fill in title, summary, status and research theme IDs.
-3. Add the full description in the body.
+6. The publication automatically gets a detail page at `/publications/[slug]/`.
 
 ## How to add an essay
 
-1. Go to the **Essays** collection.
-2. Fill in title, date, excerpt and optional external URL.
-3. Add the essay body, or leave the body empty if it links to an external publication.
+1. Create a Markdown file in `src/content/essays/` or use the **Essays** collection in Pages CMS.
+2. Set `title`, `date` and optional `externalUrl` for off-site pieces.
+3. Add the essay body, or leave the body empty if the piece links externally.
 4. Mark `draft: true` until it is ready.
 
-## How to edit singleton pages
+## How `displayOnEssays` works
 
-Edit `src/content/pages/home.md`, `research.md`, `engagement.md` or `about.md` directly or through Pages CMS. Page frontmatter and body are rendered automatically.
+Publication records with `displayOnEssays: true` appear on the Essays page under **Selected analysis and commentary** alongside local essay entries. Use this for short-form analysis and commentary published elsewhere.
 
-## Draft status
+## How current research is managed
 
-Any entry with `draft: true` is excluded from the public build.
+Current research agendas live in `src/content/projects/` and are displayed on the **Current Research** page (`/projects/`). Each record can include a `proposition`, central `questions`, related publication IDs and related essay IDs.
 
-## Featured content
+## How featured work is selected
 
-Featured items for the homepage are set in `src/content/settings/site.yml` under the `featured` object. Use the entry ID (file name without extension). Re-ordering can be managed through the `order` field on publications and projects.
+Featured items for the homepage are set in `src/content/settings/site.yml` under the `featured` object. Use the entry ID (file name without extension). A featured project is excluded from the immediately following Current Research list to avoid duplication.
 
-## How to add the CV
+## How publication statuses work
+
+- `Published` — shown in the main bibliography.
+- `Forthcoming`, `Under contract`, `In development` — shown in the **Current work** section only if at least one record has one of these statuses.
+- `draft: true` — never rendered publicly.
+
+## How to add a CV
 
 Place a PDF at `public/ian-j-stewart-cv.pdf`. The download button appears automatically on the About and Publications pages.
 
-## How to add the professional photograph
+## How to add the professional portrait
 
-Place a JPG at `src/assets/ian-stewart.jpg`. It will be used in the hero; otherwise the hero renders as text-only.
+Place a JPG at `src/assets/ian-stewart.jpg`. The hero and About page will use it; otherwise they render as text-only.
+
+## How to edit content through Pages CMS
+
+1. Visit the Pages CMS web interface for the repository.
+2. Log in with GitHub.
+3. Edit collections directly; commits are written back to `main`.
 
 ## Cloudflare build settings
 
@@ -138,18 +145,6 @@ Use these settings in Cloudflare Pages:
 
 Cloudflare will build and deploy automatically when `main` changes. Deployment secrets are not stored in the repository.
 
-## Custom domain
-
-Add `ian-j-stewart.com` in the Cloudflare Pages custom domains tab and ensure the DNS CNAME record points to the Cloudflare Pages target.
-
-## Updating dependencies
-
-```bash
-npm update
-```
-
-Review the Astro changelog before major version updates, because content collection APIs can change.
-
 ## Validation before committing
 
 Run locally:
@@ -157,6 +152,12 @@ Run locally:
 ```bash
 npm run check
 npm run build
+npm run verify
 ```
 
 The GitHub Actions workflow runs the same commands on every push and pull request to `main`.
+
+## See also
+
+- `CONTENT-TODO.md` — unresolved owner-supplied content items.
+- `PUBLICATION-AUDIT.md` — source record and uncertain fields from the publication migration.

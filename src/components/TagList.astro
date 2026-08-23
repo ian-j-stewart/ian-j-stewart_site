@@ -1,4 +1,6 @@
 ---
+import { getThemeLabel } from '../lib/themeLabels';
+
 interface Props {
   tags: string[];
 }
@@ -8,6 +10,6 @@ const { tags } = Astro.props;
 
 <ul class="tag-list" aria-label="Topics">
   {tags.map((tag) => (
-    <li>{tag}</li>
+    <li>{getThemeLabel(tag)}</li>
   ))}
 </ul>

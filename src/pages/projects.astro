@@ -1,11 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import { getCollection } from 'astro:content';
 
-const pageTitle = 'Projects';
-const pageDesc = 'Research projects connecting international-security scholarship with the governance of strategic technologies.';
+const pageTitle = 'Current Research';
+const pageDesc = 'Current research connecting international-security scholarship with the institutional and technical challenges involved in governing strategic technologies.';
 
 const allProjects = (await getCollection('projects', (p) => !p.data.draft)).sort(
   (a, b) => a.data.order - b.data.order
@@ -16,17 +15,23 @@ const byStatus = statusOrder.map((status) => ({
   status,
   items: allProjects.filter((p) => p.data.status === status),
 }));
+
+const statusLabel: Record<string, string> = {
+  'Current': 'Current research agenda',
+  'Developing': 'Developing research agenda',
+  'Completed': 'Completed research',
+};
 ---
 
 <Base title={pageTitle} description={pageDesc}>
   <div class="container" style="padding-block: var(--space-2xl);">
     <h1>{pageTitle}</h1>
-    <p class="prose">My projects connect international-security research with the institutional and technical challenges involved in governing strategic technologies.</p>
+    <p class="prose">My current research connects international-security scholarship with the institutional and technical challenges involved in governing strategic technologies.</p>
 
     {byStatus.map((group) =>
       group.items.length > 0 ? (
         <section class="project-section" aria-labelledby={`status-${group.status.toLowerCase()}`}>
-          <SectionHeading title={group.status} id={`status-${group.status.toLowerCase()}`} />
+          <h2 id={`status-${group.status.toLowerCase()}`} class="section-status">{statusLabel[group.status] ?? group.status}</h2>
           <div class="project-grid">
             {group.items.map((project) => (
               <ProjectCard project={project} />
@@ -39,8 +44,10 @@ const byStatus = statusOrder.map((status) => ({
 </Base>
 
 <style>
-  .project-section {
+  .section-status {
+    font-size: var(--step-2);
     margin-top: var(--space-2xl);
+    margin-bottom: var(--space-l);
   }
 
   .project-grid {

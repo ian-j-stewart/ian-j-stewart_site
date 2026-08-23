@@ -1,22 +1,22 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import TagList from './TagList.astro';
 
 interface Props {
   publication: CollectionEntry<'publications'>;
   showAbstract?: boolean;
+  displayOnly?: boolean;
 }
 
-const { publication, showAbstract = false } = Astro.props;
-const { title, subtitle, authors, year, type, venue, volume, issue, pages, publisher, summary, url, status } = publication.data;
+const { publication, showAbstract = false, displayOnly = false } = Astro.props;
+const { title, subtitle, authors, year, type, venue, volume, issue, pages, publisher, summary, externalUrl, publisherUrl, pdfUrl, doi, status, themes } = publication.data;
+const detailUrl = `/publications/${publication.id}/`;
+const showPublisher = publisher && publisher !== venue;
 ---
 
 <article class="card publication-card">
   <h3 class="publication-title">
-    {url ? (
-      <a href={url} class="external" rel="external noopener">{title}</a>
-    ) : (
-      <span>{title}</span>
-    )}
+    <a href={detailUrl}>{title}</a>
   </h3>
   {subtitle && <p class="publication-subtitle">{subtitle}</p>}
 
@@ -30,15 +30,28 @@ const { title, subtitle, authors, year, type, venue, volume, issue, pages, publi
   {(venue || publisher) && (
     <p class="publication-venue">
       {venue && <em>{venue}</em>}
-      {volume && <span> {volume}</span>}
+      {volume && <span>{volume}</span>}
       {issue && <span>({issue})</span>}
-      {pages && <span>: {pages}</span>}
-      {publisher && <span> {publisher}</span>}
+      {pages && <span>{pages}</span>}
+      {showPublisher && <span>{publisher}</span>}
     </p>
   )}
 
   {summary && <p class="publication-summary">{summary}</p>}
   {showAbstract && <div class="publication-abstract"><slot /></div>}
+
+  {themes.length > 0 && <TagList tags={themes} />}
+
+  {!displayOnly && (
+    <div class="publication-actions">
+      <a href={detailUrl} class="btn btn--secondary btn--small">View publication</a>
+      {externalUrl && <a href={externalUrl} class="external btn btn--secondary btn--small" rel="external noopener">Read full text</a>}
+      {!externalUrl && pdfUrl && <a href={pdfUrl} class="external btn btn--secondary btn--small" rel="external noopener">Read full text</a>}
+      {publisherUrl && <a href={publisherUrl} class="external btn btn--secondary btn--small" rel="external noopener">Publisher page</a>}
+      {doi && <a href={`https://doi.org/${doi}`} class="external btn btn--secondary btn--small" rel="external noopener">DOI</a>}
+      {pdfUrl && <a href={pdfUrl} class="external btn btn--secondary btn--small" rel="external noopener">Download PDF</a>}
+    </div>
+  )}
 </article>
 
 <style>
@@ -75,8 +88,9 @@ const { title, subtitle, authors, year, type, venue, volume, issue, pages, publi
     margin: 0 0 var(--space-s);
   }
 
-  .publication-meta > *:not(:last-child)::after {
-    content: " / ";
+  .publication-meta > *:not(:last-child)::after,
+  .publication-venue > *:not(:last-child)::after {
+    content: " · ";
     color: var(--border);
   }
 
@@ -88,5 +102,22 @@ const { title, subtitle, authors, year, type, venue, volume, issue, pages, publi
   .publication-summary {
     margin-top: var(--space-s);
     color: var(--charcoal);
+  }
+
+  .publication-abstract {
+    margin-top: var(--space-s);
+    color: var(--charcoal);
+  }
+
+  .publication-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+  }
+
+  .btn--small {
+    padding: 0.4em 0.75em;
+    font-size: var(--step--1);
   }
 </style>

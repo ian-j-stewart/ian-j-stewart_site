@@ -1,0 +1,191 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection, render } from 'astro:content';
+import { getThemeLabel } from '../../lib/themeLabels';
+
+export async function getStaticPaths() {
+  const publications = await getCollection('publications', (p) => !p.data.draft);
+  return publications.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const typeToSchemaType: Record<string, string> = {
+  'Monograph': 'Book',
+  'Edited volume': 'Book',
+  'Peer-reviewed article': 'ScholarlyArticle',
+  'Book chapter': 'ScholarlyArticle',
+  'Major report': 'Report',
+  'Policy paper': 'Report',
+  'Professional article': 'Article',
+  'Commentary': 'Article',
+  'Essay': 'Article',
+  'Institutional output': 'Report',
+};
+
+const schemaType = typeToSchemaType[data.type] ?? 'Article';
+const authorsForSchema = data.authors.length > 0 ? data.authors : data.editors ?? [];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': schemaType,
+  name: data.title,
+  author: authorsForSchema.map((name) => ({ '@type': 'Person', name })),
+  datePublished: data.year ? String(data.year) : undefined,
+  publisher: data.publisher ? { '@type': 'Organization', name: data.publisher } : undefined,
+  isPartOf: data.venue
+    ? {
+        '@type': data.type === 'Book chapter' ? 'Book' : 'Periodical',
+        name: data.venue,
+      }
+    : undefined,
+  url: `${Astro.site}publications/${entry.id}/`,
+};
+
+const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.doi;
+---
+
+<Base
+  title={data.title}
+  description={data.summary ?? data.citation ?? `Publication by Ian J. Stewart: ${data.title}`}
+  pageType="article"
+  pageStructuredData={structuredData}
+>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <Breadcrumbs items={[{ label: 'Publications', href: '/publications/' }, { label: data.title, href: `/publications/${entry.id}/` }]} />
+
+    <h1>{data.title}</h1>
+    {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+
+    <p class="publication-meta">
+      {data.authors.length > 0 && <span>{data.authors.join(', ')}</span>}
+      {data.year && <span>{data.year}</span>}
+      <span>{data.type}</span>
+      {data.status && data.status !== 'Published' && <span class="status">{data.status}</span>}
+    </p>
+
+    {(data.venue || data.publisher) && (
+      <p class="publication-venue">
+        {data.venue && <em>{data.venue}</em>}
+        {data.volume && <span>{data.volume}</span>}
+        {data.issue && <span>({data.issue})</span>}
+        {data.pages && <span>{data.pages}</span>}
+        {data.publisher && data.publisher !== data.venue && <span>{data.publisher}</span>}
+      </p>
+    )}
+
+    {data.doi && (
+      <p class="publication-doi">
+        <strong>DOI:</strong>
+        <a href={`https://doi.org/${data.doi}`} class="external" rel="external noopener">{data.doi}</a>
+      </p>
+    )}
+
+    {data.themes.length > 0 && (
+      <p class="publication-themes">
+        <strong>Themes:</strong>
+        {data.themes.map((t, i) => (
+          <>
+            <a href={`/research/${t}/`}>{getThemeLabel(t)}</a>{i < data.themes.length - 1 ? ', ' : ''}
+          </>
+        ))}
+      </p>
+    )}
+
+    {hasButtons && (
+      <div class="publication-actions">
+        {data.externalUrl && <a href={data.externalUrl} class="btn btn--primary external" rel="external noopener">Read full text</a>}
+        {data.publisherUrl && <a href={data.publisherUrl} class="btn btn--secondary external" rel="external noopener">Publisher page</a>}
+        {data.doi && <a href={`https://doi.org/${data.doi}`} class="btn btn--secondary external" rel="external noopener">DOI</a>}
+        {data.pdfUrl && <a href={data.pdfUrl} class="btn btn--secondary external" rel="external noopener">Download PDF</a>}
+      </div>
+    )}
+
+    {data.summary && (
+      <div class="prose" style="margin-top: var(--space-xl);">
+        <h2>Summary</h2>
+        <p>{data.summary}</p>
+      </div>
+    )}
+
+    {data.citation && (
+      <div class="citation-box" style="margin-top: var(--space-xl);">
+        <h2>Suggested citation</h2>
+        <p class="citation">{data.citation}</p>
+      </div>
+    )}
+
+    {data.ianRole && (
+      <p class="ian-role"><strong>Ian's role:</strong> {data.ianRole}</p>
+    )}
+
+    <div class="prose" style="margin-top: var(--space-xl);">
+      <h2>Abstract</h2>
+      <Content />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .subtitle {
+    font-size: var(--step-1);
+    color: var(--muted);
+    font-style: italic;
+    margin-top: calc(var(--space-xs) * -1);
+  }
+
+  .publication-meta,
+  .publication-venue {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin: 0 0 var(--space-s);
+  }
+
+  .publication-meta > *:not(:last-child)::after,
+  .publication-venue > *:not(:last-child)::after {
+    content: " · ";
+    color: var(--border);
+  }
+
+  .publication-venue em {
+    font-style: italic;
+  }
+
+  .status {
+    color: var(--copper);
+    font-weight: 500;
+  }
+
+  .publication-doi,
+  .publication-themes,
+  .ian-role {
+    font-size: var(--step--1);
+    margin: var(--space-s) 0;
+  }
+
+  .publication-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin: var(--space-l) 0 var(--space-xl);
+  }
+
+  .citation-box {
+    padding: var(--space-l);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .citation {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

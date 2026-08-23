@@ -29,18 +29,26 @@ content:
         type: object
         fields:
           - name: title
+            label: Job title
             type: string
           - name: name
+            label: Institution name
             type: string
           - name: url
+            label: Institutional profile URL
             type: string
       - name: contact
         label: Contact
         type: object
         fields:
-          - name: email
+          - name: academicEmail
+            label: Academic contact email
+            type: string
+          - name: advisoryEmail
+            label: Advisory contact email
             type: string
           - name: linkedin
+            label: LinkedIn URL
             type: string
       - name: social
         label: Social links
@@ -65,16 +73,22 @@ content:
         type: object
         fields:
           - name: orcid
+            label: ORCID URL
             type: string
           - name: googleScholar
+            label: Google Scholar URL
             type: string
           - name: linkedin
+            label: LinkedIn URL
             type: string
           - name: cns
+            label: CNS expert page URL
             type: string
           - name: fusionlabs
+            label: FusionLabs URL
             type: string
           - name: nonproarchive
+            label: Nonproliferation Archive URL
             type: string
       - name: footer
         label: Footer
@@ -85,14 +99,14 @@ content:
           - name: copyright
             type: string
       - name: featured
-        label: Featured homepage items (collection entry IDs)
+        label: Featured homepage items
         type: object
         fields:
           - name: publication
             label: Featured publication ID
             type: string
           - name: project
-            label: Featured project ID
+            label: Featured research item ID
             type: string
           - name: essay
             label: Featured essay ID
@@ -149,7 +163,7 @@ content:
         label: Social image
         type: image
     body:
-      label: Short introduction
+      label: About section
 
   - name: researchPage
     label: Research page
@@ -233,7 +247,7 @@ content:
         type: string
         list: true
       - name: relatedProjects
-        label: Related project IDs
+        label: Related research item IDs
         type: string
         list: true
       - name: relatedEssays
@@ -260,25 +274,59 @@ content:
         type: string
         required: true
       - name: subtitle
+        label: Subtitle
         type: string
       - name: authors
+        label: Authors
         type: string
         list: true
-      - name: year
-        type: number
-      - name: type
+      - name: editors
+        label: Editors
+        type: string
+        list: true
+      - name: ianRole
+        label: Ian's role
         type: select
         options:
-          - Book
+          - Author
+          - Co-author
+          - Editor
+          - Co-editor
+          - Contributor
+          - Institutional contributor
+      - name: year
+        label: Year
+        type: number
+      - name: date
+        label: Specific date
+        type: date
+      - name: type
+        label: Publication type
+        type: select
+        options:
+          - Monograph
+          - Edited volume
           - Peer-reviewed article
           - Book chapter
           - Major report
-          - Policy research
-          - Analysis
+          - Policy paper
+          - Professional article
           - Commentary
-          - Working paper
           - Essay
+          - Institutional output
+      - name: status
+        label: Publication status
+        type: select
+        options:
+          - Published
+          - Forthcoming
+          - Under contract
+          - In development
       - name: venue
+        label: Journal, venue or publisher
+        type: string
+      - name: publisher
+        label: Publisher
         type: string
       - name: volume
         type: string
@@ -286,45 +334,60 @@ content:
         type: string
       - name: pages
         type: string
-      - name: publisher
-        type: string
       - name: citation
+        label: Suggested citation
         type: text
       - name: summary
+        label: Short summary
         type: text
       - name: doi
+        label: DOI
         type: string
-      - name: url
+      - name: externalUrl
         label: External URL
         type: string
-      - name: pdf
-        label: Permitted PDF path
+      - name: publisherUrl
+        label: Publisher page URL
+        type: string
+      - name: pdfUrl
+        label: Permitted PDF URL
         type: string
       - name: cover
         label: Cover / thumbnail
         type: image
+      - name: coverAlt
+        label: Cover alt text
+        type: string
       - name: themes
         label: Research theme IDs
-        type: string
-        list: true
-      - name: status
         type: select
+        list: true
         options:
-          - Published
-          - Forthcoming
-          - Under contract
-          - In development
+          - label: AI, Compute and Emerging Technology
+            value: ai-compute-emerging-technology
+          - label: Nuclear Technology and Strategic Autonomy
+            value: nuclear-technology-strategic-autonomy
+          - label: Technology Control and Economic Statecraft
+            value: technology-control-economic-statecraft
       - name: featured
+        label: Feature on homepage
         type: boolean
+      - name: displayOnEssays
+        label: Display on Essays page
+        type: boolean
+      - name: displayOrder
+        label: Display order
+        type: number
       - name: order
+        label: Sort order
         type: number
       - name: draft
         type: boolean
     body:
       label: Abstract
 
-  - name: projects
-    label: Projects
+  - name: currentResearch
+    label: Current research
     type: collection
     path: src/content/projects
     filename: "{primary}.md"
@@ -336,8 +399,13 @@ content:
         type: string
         required: true
       - name: summary
+        label: Short summary
         type: text
+      - name: proposition
+        label: One-sentence proposition
+        type: string
       - name: status
+        label: Status
         type: select
         options:
           - Current
@@ -345,21 +413,34 @@ content:
           - Completed
       - name: themes
         label: Research theme IDs
-        type: string
+        type: select
         list: true
+        options:
+          - label: AI, Compute and Emerging Technology
+            value: ai-compute-emerging-technology
+          - label: Nuclear Technology and Strategic Autonomy
+            value: nuclear-technology-strategic-autonomy
+          - label: Technology Control and Economic Statecraft
+            value: technology-control-economic-statecraft
       - name: startDate
+        label: Start date
         type: date
       - name: endDate
+        label: End date
         type: date
       - name: collaborators
+        label: Collaborators
         type: string
         list: true
       - name: funder
+        label: Funder
         type: string
       - name: outputs
+        label: Outputs
         type: string
         list: true
       - name: links
+        label: Links
         type: object
         list: true
         fields:
@@ -367,6 +448,18 @@ content:
             type: string
           - name: href
             type: string
+      - name: questions
+        label: Central questions
+        type: string
+        list: true
+      - name: relatedPublications
+        label: Related publication IDs
+        type: string
+        list: true
+      - name: relatedEssays
+        label: Related essay IDs
+        type: string
+        list: true
       - name: featured
         type: boolean
       - name: order
@@ -394,10 +487,21 @@ content:
         type: text
       - name: themes
         label: Research theme IDs
-        type: string
+        type: select
         list: true
+        options:
+          - label: AI, Compute and Emerging Technology
+            value: ai-compute-emerging-technology
+          - label: Nuclear Technology and Strategic Autonomy
+            value: nuclear-technology-strategic-autonomy
+          - label: Technology Control and Economic Statecraft
+            value: technology-control-economic-statecraft
       - name: heroImage
+        label: Hero image
         type: image
+      - name: heroImageAlt
+        label: Hero image alt text
+        type: string
       - name: externalUrl
         label: External URL (for off-site essays)
         type: string

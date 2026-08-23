@@ -1,34 +1,65 @@
 ---
 import Base from '../layouts/Base.astro';
 import EssayCard from '../components/EssayCard.astro';
-import SectionHeading from '../components/SectionHeading.astro';
+import PublicationCard from '../components/PublicationCard.astro';
 import { getCollection } from 'astro:content';
 
 const pageTitle = 'Essays';
-const pageDesc = 'Occasional essays on strategic technology, international security and the relationship between policy design and practical implementation.';
+const pageDesc = 'Occasional essays and selected analysis on strategic technology, international security and the relationship between policy design and practical implementation.';
 
 const essays = (await getCollection('essays', (e) => !e.data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const essayPublications = (await getCollection('publications', (p) => !p.data.draft && p.data.displayOnEssays === true)).sort(
+  (a, b) => (b.data.year ?? 0) - (a.data.year ?? 0)
 );
 ---
 
 <Base title={pageTitle} description={pageDesc}>
   <div class="container" style="padding-block: var(--space-2xl);">
-    <SectionHeading title={pageTitle} description={pageDesc} />
+    <h1>{pageTitle}</h1>
+    <p class="prose">{pageDesc}</p>
 
-    {essays.length === 0 && (
+    {essays.length === 0 && essayPublications.length === 0 && (
       <p>No published essays yet.</p>
     )}
 
-    <div class="essay-grid">
-      {essays.map((essay) => (
-        <EssayCard essay={essay} />
-      ))}
-    </div>
+    {essays.length > 0 && (
+      <section class="essay-section" aria-labelledby="essays-heading">
+        <h2 id="essays-heading" class="section-heading-h2">Essays</h2>
+        <div class="essay-grid">
+          {essays.map((essay) => (
+            <EssayCard essay={essay} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {essayPublications.length > 0 && (
+      <section class="essay-section" aria-labelledby="analysis-heading">
+        <h2 id="analysis-heading" class="section-heading-h2">Selected analysis and commentary</h2>
+        <div class="essay-grid">
+          {essayPublications.map((publication) => (
+            <PublicationCard publication={publication} displayOnly />
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 </Base>
 
 <style>
+  .section-heading-h2 {
+    font-size: var(--step-3);
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-l);
+  }
+
+  .essay-section:first-of-type .section-heading-h2 {
+    margin-top: var(--space-l);
+  }
+
   .essay-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));

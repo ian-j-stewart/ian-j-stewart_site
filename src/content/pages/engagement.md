@@ -4,4 +4,4 @@ description: "Research collaboration, teaching, speaking and advisory opportunit
 heading: "Engagement"
 ---
 
-I welcome selected opportunities to collaborate on research, contribute to teaching and public discussion, and advise organizations confronting strategic-technology risks.
+I welcome selected opportunities to collaborate on research, contribute to teaching and public discussion, and advise organisations confronting strategic-technology risks.

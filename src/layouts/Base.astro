@@ -18,7 +18,7 @@ const settings = await getEntry('settings', 'site');
 if (!settings) throw new Error('Missing site settings');
 const settingsData = settings.data;
 const pageTitle = title
-  ? `${title} | ${settingsData.siteTitle}`
+  ? (title.includes('|') ? title : `${title} | ${settingsData.siteTitle}`)
   : `${settingsData.siteTitle} | Strategic Technology and International Security`;
 ---
 

@@ -1,13 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import ExternalLink from '../components/ExternalLink.astro';
-import { getEntry, render } from 'astro:content';
+import { getEntry, getCollection, render } from 'astro:content';
 import { existsSync } from 'node:fs';
 
 const page = await getEntry('pages', 'about');
 if (!page) throw new Error('Missing about page');
 const { Content } = await render(page);
 const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
+
+const settings = await getEntry('settings', 'site');
+const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const { person, institution } = settings?.data ?? {};
 ---
 
 <Base title={page.data.title} description={page.data.description}>
@@ -18,29 +25,29 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       <Content />
     </div>
 
-    <section class="about-section" aria-labelledby="timeline-heading">
-      <h2 id="timeline-heading">Career timeline</h2>
-      <ol class="timeline">
-        <li><strong>UK Ministry of Defence</strong> — Nuclear engineer and assessor</li>
-        <li><strong>Project Alpha, King’s College London</strong> — Founder and head</li>
-        <li><strong>James Martin Center for Nonproliferation Studies, Washington, DC</strong> — Executive Director</li>
-        <li><strong>FusionLabs</strong> — Advisory work</li>
-      </ol>
-    </section>
-
     <section class="about-section" aria-labelledby="education-heading">
       <h2 id="education-heading">Education</h2>
       <ul>
         <li>PhD in War Studies, King’s College London</li>
         <li>MSc in Nuclear Science and Technology</li>
-        <li>Master’s-level qualification in Electrical and Electronic Engineering</li>
+        <li>MEng in Electrical and Electronic Engineering</li>
       </ul>
     </section>
 
     <section class="about-section" aria-labelledby="books-heading">
       <h2 id="books-heading">Books</h2>
       <ul>
-        <li><em>International Nuclear Export Controls and Non-Proliferation: The Collective Action Problem</em> (Routledge, 2022)</li>
+        <li><em><a href="/publications/international-nuclear-export-controls-and-non-proliferation/">International Nuclear Export Controls and Non-Proliferation: The Collective Action Problem</a></em> (Routledge, 2022) — author</li>
+        <li><em><a href="/publications/preventing-the-proliferation-of-wmds/">Preventing the Proliferation of WMDs: Measuring the Success of UN Security Council Resolution 1540</a></em>, edited by Daniel Salisbury, Ian J. Stewart and Andrea Viski (Palgrave Pivot, 2018) — co-editor</li>
+      </ul>
+    </section>
+
+    <section class="about-section" aria-labelledby="research-areas-heading">
+      <h2 id="research-areas-heading">Current research areas</h2>
+      <ul>
+        {themes.map((theme) => (
+          <li><a href={`/research/${theme.id}/`}>{theme.data.title}</a></li>
+        ))}
       </ul>
     </section>
 
@@ -49,7 +56,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       <ul>
         <li>More than 25 funded projects led or managed</li>
         <li>More than $20 million in funded activity led or managed</li>
-        <li>Established and led Project Alpha at King’s College London</li>
+        <li>Founder and former head of Project Alpha, King’s College London</li>
       </ul>
     </section>
 
@@ -57,8 +64,8 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       <h2 id="experience-heading">Selected institutional experience</h2>
       <ul>
         <li>Executive Director, Washington, DC office, James Martin Center for Nonproliferation Studies</li>
-        <li>United Kingdom Ministry of Defence</li>
-        <li>King’s College London</li>
+        <li>United Kingdom Ministry of Defence — nuclear engineer and assessor</li>
+        <li>Project Alpha, King’s College London — founder and former head</li>
       </ul>
     </section>
 
@@ -66,7 +73,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       <section class="about-section" aria-labelledby="cv-heading">
         <h2 id="cv-heading">CV</h2>
         <p>
-          <a href="/ian-j-stewart-cv.pdf" class="btn btn--secondary">Download academic CV</a>
+          <a href="/ian-j-stewart-cv.pdf" class="btn btn--secondary">Download CV</a>
         </p>
       </section>
     )}
@@ -74,10 +81,21 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
     <section class="about-section" aria-labelledby="profiles-heading">
       <h2 id="profiles-heading">External profiles</h2>
       <ul class="profile-links">
-        <li><ExternalLink href="https://www.linkedin.com/in/drianjstewart/">LinkedIn</ExternalLink></li>
-        <li><ExternalLink href="https://nonproliferation.org/people/ian-stewart">CNS</ExternalLink></li>
-        <li><ExternalLink href="https://www.fusionlabs.info/">FusionLabs</ExternalLink></li>
-        <li><ExternalLink href="https://www.nonproarchive.com/">Nonproliferation Archive</ExternalLink></li>
+        {person?.linkedin && (
+          <li><ExternalLink href={person.linkedin}>LinkedIn</ExternalLink></li>
+        )}
+        {person?.cns && (
+          <li><ExternalLink href={person.cns}>CNS expert page</ExternalLink></li>
+        )}
+        {institution?.url && (
+          <li><ExternalLink href={institution.url}>Institutional profile</ExternalLink></li>
+        )}
+        {person?.fusionlabs && (
+          <li><ExternalLink href={person.fusionlabs}>FusionLabs</ExternalLink></li>
+        )}
+        {person?.nonproarchive && (
+          <li><ExternalLink href={person.nonproarchive}>Nonproliferation Archive</ExternalLink></li>
+        )}
       </ul>
     </section>
   </div>

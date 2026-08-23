@@ -19,11 +19,12 @@ const { eyebrow, heading, descriptor, intro, primaryButton, secondaryButton } = 
 const photos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/ian-stewart.jpg');
 const photoLoader = photos['/src/assets/ian-stewart.jpg'];
 const Photo = photoLoader ? await photoLoader() : null;
+const hasPhoto = !!Photo;
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
-  <div class="container hero-inner">
-    <div class="hero-text">
+  <div class={`container hero-inner ${hasPhoto ? '' : 'hero-inner--no-photo'}`}>
+    <div class={`hero-text ${hasPhoto ? '' : 'hero-text--no-photo'}`}>
       {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
       <h1 id="hero-heading" class="hero-heading">{heading}</h1>
       {descriptor && <p class="hero-descriptor">{descriptor}</p>}
@@ -32,20 +33,20 @@ const Photo = photoLoader ? await photoLoader() : null;
       {(primaryButton || secondaryButton) && (
         <div class="btn-group">
           {primaryButton && (
-            <a href={primaryButton.href} class="btn btn--primary">{primaryButton.label}</a>
+            <a href={primaryButton.href} class="btn btn--primary btn--hero-primary">{primaryButton.label}</a>
           )}
           {secondaryButton && (
-            <a href={secondaryButton.href} class="btn btn--secondary">{secondaryButton.label}</a>
+            <a href={secondaryButton.href} class="btn btn--secondary btn--hero-secondary">{secondaryButton.label}</a>
           )}
         </div>
       )}
     </div>
 
-    {Photo && (
+    {hasPhoto && (
       <div class="hero-photo">
         <Image
           src={Photo.default}
-          alt="Ian J. Stewart"
+          alt="Portrait of Ian J. Stewart"
           width={480}
           class="hero-img"
         />
@@ -72,10 +73,19 @@ const Photo = photoLoader ? await photoLoader() : null;
     align-items: center;
   }
 
+  .hero-inner--no-photo {
+    grid-template-columns: 1fr;
+    max-width: 70ch;
+  }
+
   @media (min-width: 900px) {
-    .hero-inner {
+    .hero-inner:not(.hero-inner--no-photo) {
       grid-template-columns: 1.25fr 1fr;
     }
+  }
+
+  .hero-text--no-photo {
+    max-width: 70ch;
   }
 
   .hero-eyebrow {
@@ -105,6 +115,34 @@ const Photo = photoLoader ? await photoLoader() : null;
     font-size: var(--step-1);
     max-width: 60ch;
     margin-bottom: 0;
+  }
+
+  .hero-text--no-photo .hero-statement {
+    max-width: 64ch;
+  }
+
+  .btn--hero-primary {
+    background: var(--off-white);
+    color: var(--navy);
+    border-color: var(--off-white);
+  }
+
+  .btn--hero-primary:hover,
+  .btn--hero-primary:focus {
+    background: var(--copper);
+    color: var(--off-white);
+    border-color: var(--copper);
+  }
+
+  .btn--hero-secondary {
+    border-color: var(--off-white);
+    color: var(--off-white);
+  }
+
+  .btn--hero-secondary:hover,
+  .btn--hero-secondary:focus {
+    background: var(--off-white);
+    color: var(--navy);
   }
 
   .hero-img {

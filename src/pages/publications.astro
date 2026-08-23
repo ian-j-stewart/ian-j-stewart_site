@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PublicationCard from '../components/PublicationCard.astro';
 import { getCollection } from 'astro:content';
 import { existsSync } from 'node:fs';
+import { getThemeLabel } from '../lib/themeLabels';
 
 const pageTitle = 'Publications';
 const pageDesc = 'Books, peer-reviewed articles, reports, analysis and commentary by Ian J. Stewart.';
@@ -12,16 +13,42 @@ const publications = (await getCollection('publications', (p) => !p.data.draft))
 );
 
 const themes = await getCollection('researchThemes', (t) => !t.data.draft);
+const themeOptions = themes.map((t) => ({ slug: t.id, label: getThemeLabel(t.id) }));
 const years = [...new Set(publications.map((p) => p.data.year).filter((y): y is number => y !== undefined))].sort((a, b) => b - a);
 
 const published = publications.filter((p) => p.data.status === 'Published');
-const current = publications.filter((p) => p.data.status !== 'Published');
+const current = publications.filter(
+  (p) => p.data.status === 'Forthcoming' || p.data.status === 'Under contract' || p.data.status === 'In development'
+);
 
-const typeGroups: { label: string; types: string[] }[] = [
-  { label: 'Books', types: ['Book'] },
-  { label: 'Peer-reviewed articles and chapters', types: ['Peer-reviewed article', 'Book chapter'] },
-  { label: 'Major reports and policy research', types: ['Major report', 'Policy research'] },
-  { label: 'Selected analysis and commentary', types: ['Analysis', 'Commentary', 'Working paper', 'Essay'] },
+const typeGroups: { label: string; match: (p: typeof publications[0]) => boolean }[] = [
+  {
+    label: 'Books',
+    match: (p) => p.data.type === 'Monograph' || p.data.type === 'Edited volume',
+  },
+  {
+    label: 'Peer-reviewed articles',
+    match: (p) => p.data.type === 'Peer-reviewed article',
+  },
+  {
+    label: 'Book chapters',
+    match: (p) => p.data.type === 'Book chapter',
+  },
+  {
+    label: 'Major reports and policy papers',
+    match: (p) => p.data.type === 'Major report' || p.data.type === 'Policy paper',
+  },
+  {
+    label: 'Selected professional writing and commentary',
+    match: (p) =>
+      p.data.type === 'Professional article' ||
+      p.data.type === 'Commentary' ||
+      p.data.type === 'Essay',
+  },
+  {
+    label: 'Selected institutional and project outputs',
+    match: (p) => p.data.type === 'Institutional output',
+  },
 ];
 
 const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
@@ -30,7 +57,9 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
 <Base title={pageTitle} description={pageDesc}>
   <div class="container" style="padding-block: var(--space-2xl);">
     <h1>{pageTitle}</h1>
-    <p class="prose">My work spans academic books and articles, major policy research, technical and institutional analysis, and commentary intended to connect scholarship with policy and practice.</p>
+    <p class="prose">
+      This page brings together books, peer-reviewed research, major reports and selected policy analysis. Institutional products are listed separately from individually authored work.
+    </p>
 
     {hasCv && (
       <p>
@@ -43,8 +72,8 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
         Research theme
         <select data-filter="theme">
           <option value="">All themes</option>
-          {themes.map((t) => (
-            <option value={t.id}>{t.data.title}</option>
+          {themeOptions.map((t) => (
+            <option value={t.slug}>{t.label}</option>
           ))}
         </select>
       </label>
@@ -70,11 +99,12 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
 
     <div class="publications-list" data-publications>
       {typeGroups.map((group) => {
-        const items = published.filter((p) => group.types.includes(p.data.type));
+        const items = published.filter((p) => group.match(p));
         if (items.length === 0) return null;
+        const sectionId = `section-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
         return (
-          <section class="pub-section" aria-labelledby={`section-${group.label.toLowerCase().replace(/\s+/g, '-')}`}>
-            <h2 id={`section-${group.label.toLowerCase().replace(/\s+/g, '-')}`}>{group.label}</h2>
+          <section class="pub-section" aria-labelledby={sectionId}>
+            <h2 id={sectionId}>{group.label}</h2>
             <ul class="pub-items">
               {items.map((p) => (
                 <li
@@ -83,7 +113,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
                   data-themes={p.data.themes.join(',')}
                   data-current="false"
                 >
-                  <PublicationCard publication={p} />
+                  <PublicationCard publication={p} displayOnly />
                 </li>
               ))}
             </ul>
@@ -102,7 +132,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
                 data-themes={p.data.themes.join(',')}
                 data-current="true"
               >
-                <PublicationCard publication={p} />
+                <PublicationCard publication={p} displayOnly />
               </li>
             ))}
           </ul>
