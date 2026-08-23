@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PublicationCard from './PublicationCard.astro';
+import ProjectCard from './ProjectCard.astro';
+import EssayCard from './EssayCard.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  publication?: CollectionEntry<'publications'> | undefined;
+  project?: CollectionEntry<'projects'> | undefined;
+  essay?: CollectionEntry<'essays'> | undefined;
+}
+
+const { publication, project, essay } = Astro.props;
+---
+
+<section class="featured-work" aria-labelledby="featured-heading">
+  <div class="container">
+    <SectionHeading title="Featured work" />
+    <div class="featured-grid">
+      {publication && (
+        <div>
+          <h3 class="featured-kind">Publication</h3>
+          <PublicationCard publication={publication} />
+        </div>
+      )}
+      {project && (
+        <div>
+          <h3 class="featured-kind">Project</h3>
+          <ProjectCard project={project} />
+        </div>
+      )}
+      {essay && (
+        <div>
+          <h3 class="featured-kind">Essay</h3>
+          <EssayCard essay={essay} />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-work {
+    padding-block: var(--space-2xl);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-l);
+  }
+
+  .featured-kind {
+    font-size: var(--step--1);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--copper);
+    margin-bottom: var(--space-s);
+  }
+</style>

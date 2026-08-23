@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TagList from './TagList.astro';
+
+interface Props {
+  theme: CollectionEntry<'researchThemes'>;
+}
+
+const { theme } = Astro.props;
+const { title, summary, topics } = theme.data;
+---
+
+<article class="card theme-card">
+  <h3 class="theme-title">
+    <a href={`/research/${theme.id}/`}>{title}</a>
+  </h3>
+  <p class="theme-summary">{summary}</p>
+  {topics.length > 0 && <TagList tags={topics} />}
+</article>
+
+<style>
+  .theme-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .theme-title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .theme-title a:hover,
+  .theme-title a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .theme-summary {
+    color: var(--muted);
+    flex-grow: 1;
+  }
+</style>

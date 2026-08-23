@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+
+interface Button {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string | undefined;
+  heading: string;
+  descriptor?: string | undefined;
+  intro: string;
+  primaryButton?: Button | undefined;
+  secondaryButton?: Button | undefined;
+}
+
+const { eyebrow, heading, descriptor, intro, primaryButton, secondaryButton } = Astro.props;
+const photos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/ian-stewart.jpg');
+const photoLoader = photos['/src/assets/ian-stewart.jpg'];
+const Photo = photoLoader ? await photoLoader() : null;
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
+      <h1 id="hero-heading" class="hero-heading">{heading}</h1>
+      {descriptor && <p class="hero-descriptor">{descriptor}</p>}
+      <p class="hero-statement">{intro}</p>
+
+      {(primaryButton || secondaryButton) && (
+        <div class="btn-group">
+          {primaryButton && (
+            <a href={primaryButton.href} class="btn btn--primary">{primaryButton.label}</a>
+          )}
+          {secondaryButton && (
+            <a href={secondaryButton.href} class="btn btn--secondary">{secondaryButton.label}</a>
+          )}
+        </div>
+      )}
+    </div>
+
+    {Photo && (
+      <div class="hero-photo">
+        <Image
+          src={Photo.default}
+          alt="Ian J. Stewart"
+          width={480}
+          class="hero-img"
+        />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-3xl);
+    background: var(--navy);
+    color: var(--off-white);
+  }
+
+  .hero a {
+    color: var(--off-white);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1.25fr 1fr;
+    }
+  }
+
+  .hero-eyebrow {
+    color: var(--copper);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-s);
+  }
+
+  .hero-heading {
+    color: var(--off-white);
+    font-size: var(--step-5);
+    margin-bottom: var(--space-m);
+  }
+
+  .hero-descriptor {
+    font-family: var(--font-serif);
+    color: #d8d7d2;
+    font-size: var(--step-2);
+    margin-bottom: var(--space-m);
+  }
+
+  .hero-statement {
+    color: #e6e4df;
+    font-size: var(--step-1);
+    max-width: 60ch;
+    margin-bottom: 0;
+  }
+
+  .hero-img {
+    border-radius: var(--radius);
+    object-fit: cover;
+    width: 100%;
+    max-width: 28rem;
+    margin-inline: auto;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
+  }
+</style>

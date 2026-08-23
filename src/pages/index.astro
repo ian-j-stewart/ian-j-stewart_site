@@ -1,0 +1,179 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ResearchThemeCard from '../components/ResearchThemeCard.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import EssayCard from '../components/EssayCard.astro';
+import CredentialStrip from '../components/CredentialStrip.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getEntry, getCollection, render } from 'astro:content';
+
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Missing homepage entry');
+
+const settings = await getEntry('settings', 'site');
+if (!settings) throw new Error('Missing site settings');
+
+const { Content: HomeContent } = await render(home);
+
+const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const projects = (await getCollection('projects', (p) => !p.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const recentEssays = (await getCollection('essays', (e) => !e.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const featuredPublication = settings.data.featured?.publication
+  ? await getEntry('publications', settings.data.featured.publication)
+  : undefined;
+const featuredProject = settings.data.featured?.project
+  ? await getEntry('projects', settings.data.featured.project)
+  : undefined;
+const featuredEssay = settings.data.featured?.essay
+  ? await getEntry('essays', settings.data.featured.essay)
+  : undefined;
+
+const credentials = [
+  { label: 'Current role', value: 'Executive Director, CNS Washington, DC' },
+  { label: 'Project Alpha', value: 'Former founder and head, King’s College London' },
+  { label: 'UK Ministry of Defence', value: 'Former nuclear engineer and assessor' },
+  { label: 'Authored books', value: 'Two' },
+  { label: 'Funded projects', value: 'More than 25 led or managed' },
+  { label: 'Funded activity', value: 'More than $20 million' },
+];
+---
+
+<Base title={home.data.title} description={home.data.description}>
+  <Hero
+    eyebrow={home.data.eyebrow}
+    heading={home.data.heading ?? 'Ian J. Stewart'}
+    descriptor={home.data.descriptor}
+    intro={home.data.intro ?? ''}
+    primaryButton={home.data.primaryButton}
+    secondaryButton={home.data.secondaryButton}
+  />
+
+  <section class="intro" aria-labelledby="intro-heading">
+    <div class="container prose">
+      <h2 id="intro-heading" class="visually-hidden">Short introduction</h2>
+      <HomeContent />
+    </div>
+  </section>
+
+  <section class="research-areas" aria-labelledby="research-areas-heading">
+    <div class="container">
+      <SectionHeading title="Research areas" description="Three intersecting areas of inquiry into the governance of strategic technology." />
+      <div class="research-grid">
+        {themes.map((theme) => (
+          <ResearchThemeCard theme={theme} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FeaturedWork
+    publication={featuredPublication}
+    project={featuredProject}
+    essay={featuredEssay}
+  />
+
+  <section class="current-research" aria-labelledby="current-research-heading">
+    <div class="container">
+      <SectionHeading title="Current research" description="Developing research agendas at the intersection of technology and international security." />
+      <div class="project-grid">
+        {projects.slice(0, 3).map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="experience" aria-labelledby="experience-heading">
+    <div class="container">
+      <h2 id="experience-heading" class="visually-hidden">Experience and perspective</h2>
+      <CredentialStrip items={credentials} />
+    </div>
+  </section>
+
+  {recentEssays.length > 0 && (
+    <section class="recent-essays" aria-labelledby="recent-essays-heading">
+      <div class="container">
+        <SectionHeading title="Recent essays" description="Occasional essays on strategic technology and international security." />
+        <div class="essay-grid">
+          {recentEssays.slice(0, 3).map((essay) => (
+            <EssayCard essay={essay} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="engagement-preview" aria-labelledby="engagement-heading">
+    <div class="container">
+      <SectionHeading
+        title="Research, teaching and advisory engagement"
+        id="engagement-heading"
+        description="I work with academic institutions, governments, international organizations and companies on questions involving strategic technology and international security."
+      />
+      <div class="engagement-links">
+        <a href="/engagement/#research" class="btn btn--secondary">Research collaboration</a>
+        <a href="/engagement/#speaking" class="btn btn--secondary">Speaking and teaching</a>
+        <a href="/engagement/#advisory" class="btn btn--secondary">Advisory work</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    padding-block: var(--space-3xl);
+  }
+
+  .research-areas,
+  .current-research,
+  .recent-essays,
+  .engagement-preview {
+    padding-block: var(--space-2xl);
+  }
+
+  .research-areas,
+  .current-research,
+  .recent-essays {
+    background: #fff;
+    border-block: 1px solid var(--border);
+  }
+
+  .research-grid,
+  .project-grid,
+  .essay-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-l);
+  }
+
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .research-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .engagement-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .experience {
+    padding-block: var(--space-xl);
+  }
+</style>

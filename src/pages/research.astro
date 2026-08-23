@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry, getCollection, render } from 'astro:content';
+import SectionHeading from '../components/SectionHeading.astro';
+import ResearchThemeCard from '../components/ResearchThemeCard.astro';
+
+const page = await getEntry('pages', 'research');
+if (!page) throw new Error('Missing research page');
+
+const { Content } = await render(page);
+
+const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const methods = [
+  'Policy and institutional analysis',
+  'Historical and archival research',
+  'Technical and supply-chain analysis',
+  'Case studies',
+  'Practitioner and stakeholder engagement',
+  'AI-enabled open-source analysis',
+  'Decision-support and implementation research',
+];
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <h1>{page.data.heading}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+
+  <section class="themes-section" aria-labelledby="themes-heading">
+    <div class="container">
+      <SectionHeading title="Research themes" id="themes-heading" />
+      <div class="research-grid">
+        {themes.map((theme) => (
+          <ResearchThemeCard theme={theme} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="methods-section" aria-labelledby="methods-heading">
+    <div class="container">
+      <SectionHeading
+        title="Implementation and analytical methods"
+        id="methods-heading"
+        description="A cross-cutting strand of my work examines how national-security policies are translated into organizational decisions and operational practice. This includes licensing, compliance, research governance, due diligence, supply-chain analysis and international capacity building. I also develop and evaluate AI-enabled analytical and decision-support approaches, with particular attention to provenance, uncertainty, auditability and human accountability."
+      />
+      <ul class="methods-list">
+        {methods.map((method) => (
+          <li>{method}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .themes-section,
+  .methods-section {
+    padding-block: var(--space-2xl);
+  }
+
+  .themes-section {
+    background: #fff;
+    border-block: 1px solid var(--border);
+  }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  @media (min-width: 720px) {
+    .research-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .methods-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-s);
+    list-style: none;
+    padding: 0;
+  }
+
+  .methods-list li {
+    padding: var(--space-s) var(--space-m);
+    border-left: 3px solid var(--copper);
+    background: #fff;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  settings: CollectionEntry<'settings'>;
+  title: string;
+  description: string;
+  image?: string | undefined;
+  pageType?: string | undefined;
+  pageStructuredData?: Record<string, unknown> | undefined;
+}
+
+const { settings, title, description, image, pageType = 'website', pageStructuredData } = Astro.props;
+const site = settings.data;
+const canonical = Astro.url.href;
+const ogImage = image ?? site.defaultImage ?? '';
+
+const sameAs = Object.values(site.person ?? {}).filter(Boolean) as string[];
+const personLd = sameAs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Ian J. Stewart',
+      jobTitle: site.institution?.title,
+      worksFor: {
+        '@type': 'Organization',
+        name: site.institution?.name,
+        url: site.institution?.url,
+      },
+      sameAs,
+    }
+  : undefined;
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.siteTitle,
+  url: site.siteUrl,
+  description: site.siteDescription,
+};
+
+const structured: unknown[] = [websiteLd];
+if (personLd) structured.push(personLd);
+if (pageStructuredData) structured.push(pageStructuredData);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={pageType} />
+<meta property="og:url" content={canonical} />
+{ogImage && <meta property="og:image" content={new URL(ogImage, site.siteUrl).href} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={new URL(ogImage, site.siteUrl).href} />}
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(structured)} />
+
+{site.analytics?.cloudflareToken && (
+  <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${site.analytics.cloudflareToken}"}`} />
+)}

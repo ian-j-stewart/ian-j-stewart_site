@@ -1,0 +1,143 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ExternalLink from './ExternalLink.astro';
+
+interface Props {
+  settings: CollectionEntry<'settings'>;
+}
+
+const { settings } = Astro.props;
+const { navigation, person } = settings.data;
+const cns = person?.cns;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-title" href="/" aria-label="Ian J. Stewart home">Ian J. Stewart</a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-controls="primary-nav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      data-menu-toggle
+    >
+      <span aria-hidden="true">Menu</span>
+    </button>
+
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <ul class="nav-list">
+        {navigation.map((item) => (
+          <li><a href={item.href} class="nav-link">{item.label}</a></li>
+        ))}
+        {cns && (
+          <li><ExternalLink href={cns} class="nav-link">CNS</ExternalLink></li>
+        )}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const nav = document.getElementById('primary-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('is-open', !open);
+    });
+  })();
+</script>
+
+<style>
+  .site-header {
+    background: var(--navy);
+    color: var(--off-white);
+    padding-block: var(--space-m);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .site-title {
+    color: var(--off-white);
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .site-title:hover,
+  .site-title:focus {
+    color: var(--copper);
+  }
+
+  .menu-toggle {
+    display: block;
+    background: transparent;
+    color: var(--off-white);
+    border: 1.5px solid var(--off-white);
+    border-radius: var(--radius);
+    padding: 0.4em 0.8em;
+    font-size: var(--step--1);
+    cursor: pointer;
+  }
+
+  .site-nav {
+    width: 100%;
+    display: none;
+  }
+
+  .site-nav.is-open {
+    display: block;
+  }
+
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-m) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .nav-list li a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-size: var(--step-1);
+    padding: 0.25em 0;
+    display: inline-block;
+  }
+
+  .nav-list li a:hover,
+  .nav-list li a:focus {
+    color: var(--copper);
+    text-decoration: underline;
+  }
+
+  @media (min-width: 760px) {
+    .menu-toggle {
+      display: none;
+    }
+
+    .site-nav {
+      width: auto;
+      display: block;
+    }
+
+    .nav-list {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-l);
+      margin: 0;
+    }
+  }
+</style>

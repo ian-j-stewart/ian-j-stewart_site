@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, themes } = project.data;
+---
+
+<article class="card project-card">
+  <h3 class="project-title">
+    <a href={`/projects/${project.id}/`}>{title}</a>
+  </h3>
+  <p class="project-status">{status}</p>
+  <p class="project-summary">{summary}</p>
+  {themes.length > 0 && <TagList tags={themes} />}
+</article>
+
+<style>
+  .project-title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .project-title a:hover,
+  .project-title a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .project-status {
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--copper);
+    margin-top: 0;
+    margin-bottom: var(--space-xs);
+  }
+
+  .project-summary {
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ian-j-stewart.com/sitemap-index.xml

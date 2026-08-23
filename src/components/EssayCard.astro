@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  essay: CollectionEntry<'essays'>;
+}
+
+const { essay } = Astro.props;
+const { title, date, excerpt, externalUrl } = essay.data;
+const formattedDate = date.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const href = externalUrl ?? `/essays/${essay.id}/`;
+---
+
+<article class="card essay-card">
+  <p class="essay-date">{formattedDate}</p>
+  <h3 class="essay-title">
+    <a href={href} class={externalUrl ? 'external' : ''} rel={externalUrl ? 'external noopener' : undefined}>
+      {title}
+    </a>
+  </h3>
+  {excerpt && <p class="essay-excerpt">{excerpt}</p>}
+</article>
+
+<style>
+  .essay-date {
+    font-size: var(--step--1);
+    color: var(--copper);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .essay-title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .essay-title a:hover,
+  .essay-title a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .essay-excerpt {
+    color: var(--muted);
+  }
+</style>

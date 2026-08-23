@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { getEntry } from 'astro:content';
+import Seo from '../components/Seo.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string | undefined;
+  description?: string | undefined;
+  image?: string | undefined;
+  pageType?: string | undefined;
+  pageStructuredData?: Record<string, unknown> | undefined;
+}
+
+const { title, description, image, pageType, pageStructuredData } = Astro.props;
+const settings = await getEntry('settings', 'site');
+if (!settings) throw new Error('Missing site settings');
+const settingsData = settings.data;
+const pageTitle = title
+  ? `${title} | ${settingsData.siteTitle}`
+  : `${settingsData.siteTitle} | Strategic Technology and International Security`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Seo
+      settings={settings}
+      title={pageTitle}
+      description={description ?? settingsData.siteDescription}
+      image={image}
+      pageType={pageType}
+      pageStructuredData={pageStructuredData}
+    />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <SiteHeader settings={settings} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter settings={settings} />
+  </body>
+</html>

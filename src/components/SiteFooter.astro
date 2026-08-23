@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ExternalLink from './ExternalLink.astro';
+
+interface Props {
+  settings: CollectionEntry<'settings'>;
+}
+
+const { settings } = Astro.props;
+const { person, footer, social } = settings.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-identity">
+        <p class="footer-name">Ian J. Stewart</p>
+        <p class="footer-tagline">Strategic Technology and International Security</p>
+      </div>
+
+      <div class="footer-links">
+        {person?.linkedin && (
+          <ExternalLink href={person.linkedin} class="footer-link">LinkedIn</ExternalLink>
+        )}
+        {person?.cns && (
+          <ExternalLink href={person.cns} class="footer-link">CNS profile</ExternalLink>
+        )}
+        {person?.fusionlabs && (
+          <ExternalLink href={person.fusionlabs} class="footer-link">FusionLabs</ExternalLink>
+        )}
+        {person?.nonproarchive && (
+          <ExternalLink href={person.nonproarchive} class="footer-link">Nonproliferation Archive</ExternalLink>
+        )}
+      </div>
+    </div>
+
+    {social && social.length > 0 && (
+      <ul class="footer-social" aria-label="Social links">
+        {social.map((s) => (
+          <li>
+            <ExternalLink href={s.url} class="footer-link">{s.platform}</ExternalLink>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <p class="footer-legal">
+      &copy; {year} {footer?.copyright ?? 'Ian J. Stewart'}. {footer?.text}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: var(--off-white);
+    padding-block: var(--space-2xl);
+    margin-top: var(--space-3xl);
+  }
+
+  .footer-inner > * + * {
+    margin-top: var(--space-l);
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-l);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: var(--space-l);
+  }
+
+  .footer-name {
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .footer-tagline {
+    margin: var(--space-xs) 0 0;
+    color: #b8b3a9;
+  }
+
+  .footer-links,
+  .footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-link {
+    color: var(--off-white);
+    text-decoration: none;
+  }
+
+  .footer-link:hover,
+  .footer-link:focus {
+    color: var(--copper);
+    text-decoration: underline;
+  }
+
+  .footer-legal {
+    font-size: var(--step--1);
+    color: #b8b3a9;
+    max-width: var(--max-prose);
+    margin: 0;
+  }
+</style>

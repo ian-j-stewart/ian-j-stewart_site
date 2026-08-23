@@ -1,0 +1,413 @@
+media:
+  input: public/assets
+  output: /assets
+
+content:
+  - name: settings
+    label: Site settings
+    type: file
+    path: src/content/settings/site.yml
+    format: yaml
+    fields:
+      - name: siteTitle
+        label: Site title
+        type: string
+      - name: siteDescription
+        label: Default meta description
+        type: text
+      - name: siteUrl
+        label: Site URL
+        type: string
+      - name: defaultImage
+        label: Default social image
+        type: image
+      - name: author
+        label: Author name
+        type: string
+      - name: institution
+        label: Current institution
+        type: object
+        fields:
+          - name: title
+            type: string
+          - name: name
+            type: string
+          - name: url
+            type: string
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - name: email
+            type: string
+          - name: linkedin
+            type: string
+      - name: social
+        label: Social links
+        type: object
+        list: true
+        fields:
+          - name: platform
+            type: string
+          - name: url
+            type: string
+      - name: navigation
+        label: Primary navigation
+        type: object
+        list: true
+        fields:
+          - name: label
+            type: string
+          - name: href
+            type: string
+      - name: person
+        label: Person profiles
+        type: object
+        fields:
+          - name: orcid
+            type: string
+          - name: googleScholar
+            type: string
+          - name: linkedin
+            type: string
+          - name: cns
+            type: string
+          - name: fusionlabs
+            type: string
+          - name: nonproarchive
+            type: string
+      - name: footer
+        label: Footer
+        type: object
+        fields:
+          - name: text
+            type: text
+          - name: copyright
+            type: string
+      - name: featured
+        label: Featured homepage items (collection entry IDs)
+        type: object
+        fields:
+          - name: publication
+            label: Featured publication ID
+            type: string
+          - name: project
+            label: Featured project ID
+            type: string
+          - name: essay
+            label: Featured essay ID
+            type: string
+      - name: analytics
+        label: Analytics
+        type: object
+        fields:
+          - name: cloudflareToken
+            label: Cloudflare Web Analytics token
+            type: string
+
+  - name: homepage
+    label: Homepage
+    type: file
+    path: src/content/pages/home.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Page title
+        type: string
+      - name: description
+        label: Meta description
+        type: text
+      - name: heading
+        label: Hero heading
+        type: string
+      - name: eyebrow
+        label: Hero eyebrow
+        type: string
+      - name: descriptor
+        label: Hero descriptor
+        type: string
+      - name: intro
+        label: Hero introductory statement
+        type: text
+      - name: primaryButton
+        label: Primary CTA
+        type: object
+        fields:
+          - name: label
+            type: string
+          - name: href
+            type: string
+      - name: secondaryButton
+        label: Secondary CTA
+        type: object
+        fields:
+          - name: label
+            type: string
+          - name: href
+            type: string
+      - name: ogImage
+        label: Social image
+        type: image
+    body:
+      label: Short introduction
+
+  - name: researchPage
+    label: Research page
+    type: file
+    path: src/content/pages/research.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        type: string
+      - name: description
+        type: text
+      - name: heading
+        type: string
+      - name: ogImage
+        type: image
+    body:
+      label: Opening copy
+
+  - name: engagementPage
+    label: Engagement page
+    type: file
+    path: src/content/pages/engagement.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        type: string
+      - name: description
+        type: text
+      - name: heading
+        type: string
+      - name: ogImage
+        type: image
+    body:
+      label: Opening copy
+
+  - name: aboutPage
+    label: About page
+    type: file
+    path: src/content/pages/about.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        type: string
+      - name: description
+        type: text
+      - name: heading
+        type: string
+      - name: ogImage
+        type: image
+    body:
+      label: Biography
+
+  - name: researchThemes
+    label: Research themes
+    type: collection
+    path: src/content/research-themes
+    filename: "{primary}.md"
+    view:
+      fields: [title, featured, draft]
+      primary: title
+    fields:
+      - name: title
+        type: string
+        required: true
+      - name: proposition
+        label: One-sentence proposition
+        type: string
+      - name: summary
+        label: Short summary
+        type: text
+      - name: questions
+        label: Central research questions
+        type: string
+        list: true
+      - name: topics
+        label: Topics
+        type: string
+        list: true
+      - name: relatedPublications
+        label: Related publication IDs
+        type: string
+        list: true
+      - name: relatedProjects
+        label: Related project IDs
+        type: string
+        list: true
+      - name: relatedEssays
+        label: Related essay IDs
+        type: string
+        list: true
+      - name: featured
+        type: boolean
+      - name: draft
+        type: boolean
+    body:
+      label: Full thematic description
+
+  - name: publications
+    label: Publications
+    type: collection
+    path: src/content/publications
+    filename: "{year}-{primary}.md"
+    view:
+      fields: [title, year, type, status, featured, draft]
+      primary: title
+    fields:
+      - name: title
+        type: string
+        required: true
+      - name: subtitle
+        type: string
+      - name: authors
+        type: string
+        list: true
+      - name: year
+        type: number
+      - name: type
+        type: select
+        options:
+          - Book
+          - Peer-reviewed article
+          - Book chapter
+          - Major report
+          - Policy research
+          - Analysis
+          - Commentary
+          - Working paper
+          - Essay
+      - name: venue
+        type: string
+      - name: volume
+        type: string
+      - name: issue
+        type: string
+      - name: pages
+        type: string
+      - name: publisher
+        type: string
+      - name: citation
+        type: text
+      - name: summary
+        type: text
+      - name: doi
+        type: string
+      - name: url
+        label: External URL
+        type: string
+      - name: pdf
+        label: Permitted PDF path
+        type: string
+      - name: cover
+        label: Cover / thumbnail
+        type: image
+      - name: themes
+        label: Research theme IDs
+        type: string
+        list: true
+      - name: status
+        type: select
+        options:
+          - Published
+          - Forthcoming
+          - Under contract
+          - In development
+      - name: featured
+        type: boolean
+      - name: order
+        type: number
+      - name: draft
+        type: boolean
+    body:
+      label: Abstract
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    filename: "{primary}.md"
+    view:
+      fields: [title, status, featured, draft]
+      primary: title
+    fields:
+      - name: title
+        type: string
+        required: true
+      - name: summary
+        type: text
+      - name: status
+        type: select
+        options:
+          - Current
+          - Developing
+          - Completed
+      - name: themes
+        label: Research theme IDs
+        type: string
+        list: true
+      - name: startDate
+        type: date
+      - name: endDate
+        type: date
+      - name: collaborators
+        type: string
+        list: true
+      - name: funder
+        type: string
+      - name: outputs
+        type: string
+        list: true
+      - name: links
+        type: object
+        list: true
+        fields:
+          - name: label
+            type: string
+          - name: href
+            type: string
+      - name: featured
+        type: boolean
+      - name: order
+        type: number
+      - name: draft
+        type: boolean
+    body:
+      label: Full description
+
+  - name: essays
+    label: Essays
+    type: collection
+    path: src/content/essays
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, featured, draft]
+      primary: title
+    fields:
+      - name: title
+        type: string
+        required: true
+      - name: date
+        type: date
+      - name: excerpt
+        type: text
+      - name: themes
+        label: Research theme IDs
+        type: string
+        list: true
+      - name: heroImage
+        type: image
+      - name: externalUrl
+        label: External URL (for off-site essays)
+        type: string
+      - name: canonicalUrl
+        type: string
+      - name: featured
+        type: boolean
+      - name: draft
+        type: boolean
+      - name: seoDescription
+        type: text
+    body:
+      label: Main body

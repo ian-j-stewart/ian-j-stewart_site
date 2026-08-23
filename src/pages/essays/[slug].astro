@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const essays = await getCollection('essays', (e) => !e.data.draft);
+  return essays.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const formattedDate = entry.data.date.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base title={entry.data.title} description={entry.data.seoDescription ?? entry.data.excerpt ?? ''}>
+  <article class="container" style="padding-block: var(--space-2xl);">
+    <Breadcrumbs items={[{ label: 'Essays', href: '/essays/' }, { label: entry.data.title, href: `/essays/${entry.id}/` }]} />
+
+    <header>
+      <p class="essay-date">{formattedDate}</p>
+      <h1>{entry.data.title}</h1>
+      {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
+    </header>
+
+    {entry.data.externalUrl ? (
+      <div class="prose">
+        <p>
+          This essay is published externally. <a href={entry.data.externalUrl} class="external" rel="external noopener">Read it at the original publication</a>.
+        </p>
+      </div>
+    ) : (
+      <div class="prose">
+        <Content />
+      </div>
+    )}
+  </article>
+</Base>
+
+<style>
+  .essay-date {
+    font-size: var(--step--1);
+    color: var(--copper);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .excerpt {
+    font-size: var(--step-1);
+    color: var(--muted);
+    max-width: var(--max-prose);
+  }
+</style>

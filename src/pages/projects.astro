@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+
+const pageTitle = 'Projects';
+const pageDesc = 'Research projects connecting international-security scholarship with the governance of strategic technologies.';
+
+const allProjects = (await getCollection('projects', (p) => !p.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const statusOrder = ['Current', 'Developing', 'Completed'];
+const byStatus = statusOrder.map((status) => ({
+  status,
+  items: allProjects.filter((p) => p.data.status === status),
+}));
+---
+
+<Base title={pageTitle} description={pageDesc}>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <h1>{pageTitle}</h1>
+    <p class="prose">My projects connect international-security research with the institutional and technical challenges involved in governing strategic technologies.</p>
+
+    {byStatus.map((group) =>
+      group.items.length > 0 ? (
+        <section class="project-section" aria-labelledby={`status-${group.status.toLowerCase()}`}>
+          <SectionHeading title={group.status} id={`status-${group.status.toLowerCase()}`} />
+          <div class="project-grid">
+            {group.items.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </section>
+      ) : null
+    )}
+  </div>
+</Base>
+
+<style>
+  .project-section {
+    margin-top: var(--space-2xl);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-l);
+  }
+</style>

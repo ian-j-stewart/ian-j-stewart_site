@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'engagement');
+if (!page) throw new Error('Missing engagement page');
+const { Content } = await render(page);
+
+const engagementTypes = [
+  'Collaborative research',
+  'Funded research programmes',
+  'Workshops and roundtables',
+  'Visiting affiliations',
+  'Book and publication projects',
+];
+
+const topics = [
+  'Strategic Technology and International Security',
+  'AI, Compute and Security',
+  'Export Controls and Economic Statecraft',
+  'Research and Technology Security',
+  'Nuclear Nonproliferation and Deterrence',
+  'AI-Enabled Analysis for International Security',
+];
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <h1>{page.data.heading}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+
+    <section class="engagement-section" id="research" aria-labelledby="research-heading">
+      <h2 id="research-heading">Research collaboration</h2>
+      <p>
+        I collaborate with universities, research institutes, foundations, governments and international organizations on research concerning strategic technology and international security. Areas of particular interest include technology controls, AI and compute governance, research security, semiconductor supply chains, nuclear policy and the development of responsible analytical methods.
+      </p>
+      <ul>
+        {engagementTypes.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="engagement-section" id="speaking" aria-labelledby="speaking-heading">
+      <h2 id="speaking-heading">Speaking and teaching</h2>
+      <p>
+        I contribute to academic seminars, executive programmes, professional training and public events. My teaching combines international-security scholarship, technical understanding and practical experience of policy implementation.
+      </p>
+      <h3>Indicative topics</h3>
+      <ul>
+        {topics.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="engagement-section" id="advisory" aria-labelledby="advisory-heading">
+      <h2 id="advisory-heading">Advisory work</h2>
+      <p>
+        Alongside my institutional research, I undertake selected advisory engagements with governments, companies, universities and international organizations through FusionLabs. This work focuses on strategic technology risk, export controls, research security, regulatory intelligence, training and AI-enabled analytical workflows.
+      </p>
+      <div class="btn-group">
+        <ExternalLink href="https://www.fusionlabs.info/" class="btn btn--primary">Visit FusionLabs</ExternalLink>
+        <a href="mailto:ian@fusionlabs.info" class="btn btn--secondary">Email FusionLabs</a>
+      </div>
+    </section>
+
+    <section class="engagement-section" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact</h2>
+      <p>
+        For general professional contact, please use <a href="https://www.linkedin.com/in/drianjstewart/" class="external" rel="external noopener">LinkedIn</a>.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .engagement-section {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border);
+  }
+</style>

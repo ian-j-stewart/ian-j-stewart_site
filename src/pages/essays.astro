@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import EssayCard from '../components/EssayCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+
+const pageTitle = 'Essays';
+const pageDesc = 'Occasional essays on strategic technology, international security and the relationship between policy design and practical implementation.';
+
+const essays = (await getCollection('essays', (e) => !e.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<Base title={pageTitle} description={pageDesc}>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <SectionHeading title={pageTitle} description={pageDesc} />
+
+    {essays.length === 0 && (
+      <p>No published essays yet.</p>
+    )}
+
+    <div class="essay-grid">
+      {essays.map((essay) => (
+        <EssayCard essay={essay} />
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .essay-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-l);
+  }
+</style>

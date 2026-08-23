@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  publication: CollectionEntry<'publications'>;
+  showAbstract?: boolean;
+}
+
+const { publication, showAbstract = false } = Astro.props;
+const { title, subtitle, authors, year, type, venue, volume, issue, pages, publisher, summary, url, status } = publication.data;
+---
+
+<article class="card publication-card">
+  <h3 class="publication-title">
+    {url ? (
+      <a href={url} class="external" rel="external noopener">{title}</a>
+    ) : (
+      <span>{title}</span>
+    )}
+  </h3>
+  {subtitle && <p class="publication-subtitle">{subtitle}</p>}
+
+  <p class="publication-meta">
+    {authors.length > 0 && <span class="publication-authors">{authors.join(', ')}</span>}
+    {year && <span class="publication-year">{year}</span>}
+    <span class="publication-type">{type}</span>
+    {status && status !== 'Published' && <span class="publication-status">{status}</span>}
+  </p>
+
+  {(venue || publisher) && (
+    <p class="publication-venue">
+      {venue && <em>{venue}</em>}
+      {volume && <span> {volume}</span>}
+      {issue && <span>({issue})</span>}
+      {pages && <span>: {pages}</span>}
+      {publisher && <span> {publisher}</span>}
+    </p>
+  )}
+
+  {summary && <p class="publication-summary">{summary}</p>}
+  {showAbstract && <div class="publication-abstract"><slot /></div>}
+</article>
+
+<style>
+  .publication-card {
+    margin-bottom: var(--space-l);
+  }
+
+  .publication-title {
+    font-size: var(--step-1);
+    margin-bottom: var(--space-xs);
+  }
+
+  .publication-title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .publication-title a:hover,
+  .publication-title a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .publication-subtitle {
+    color: var(--muted);
+    font-style: italic;
+    margin: var(--space-xs) 0;
+  }
+
+  .publication-meta,
+  .publication-venue {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin: 0 0 var(--space-s);
+  }
+
+  .publication-meta > *:not(:last-child)::after {
+    content: " / ";
+    color: var(--border);
+  }
+
+  .publication-status {
+    font-weight: 500;
+    color: var(--copper);
+  }
+
+  .publication-summary {
+    margin-top: var(--space-s);
+    color: var(--charcoal);
+  }
+</style>

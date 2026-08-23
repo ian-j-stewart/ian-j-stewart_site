@@ -1,0 +1,19 @@
+# Build outputs
+.astro/
+dist/
+
+# Dependencies
+node_modules/
+
+# Local Node.js binary
+.node/
+
+# Runtime
+.env
+.env.local
+
+# OS and IDE
+.DS_Store
+*.log
+.vscode/
+.idea/
