@@ -16,8 +16,8 @@ interface Props {
 }
 
 const { eyebrow, heading, descriptor, intro, primaryButton, secondaryButton } = Astro.props;
-const photos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/ian-stewart.jpg');
-const photoLoader = photos['/src/assets/ian-stewart.jpg'];
+const photos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/ian-stewart.png');
+const photoLoader = photos['/src/assets/ian-stewart.png'];
 const Photo = photoLoader ? await photoLoader() : null;
 const hasPhoto = !!Photo;
 ---
