@@ -1,0 +1,225 @@
+---
+import Base from '../layouts/Base.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getEntry } from 'astro:content';
+
+const title = 'AI and Data Methods for International Security';
+const description = 'Research by Ian J. Stewart on AI-enabled analysis, knowledge graphs, data integration and accountable decision-support methods for international security.';
+
+const settings = await getEntry('settings', 'site');
+const siteUrl = settings?.data.siteUrl ?? 'https://ian-j-stewart.com';
+const personId = `${siteUrl}#person`;
+const websiteId = `${siteUrl}#website`;
+
+const pageStructuredData = {
+  '@id': `${siteUrl}/methods-and-tools/#main-entity`,
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: `${siteUrl}/methods-and-tools/`,
+  isPartOf: { '@id': websiteId },
+  about: { '@id': personId },
+};
+
+const automated = await getEntry('publications', 'automated-processing-of-open-source-information-for-non-proliferation-purposes');
+const framework = await getEntry('publications', 'a-framework-to-evaluate-the-risks-of-llms-for-assisting-cbrn-production-processes');
+const chips = await getEntry('publications', 'how-and-how-many-western-chips-are-getting-to-russia');
+const compute = await getEntry('projects', 'compute-governance');
+
+const evidenceItems: { type: 'publication' | 'project'; entry: any; relevance: string }[] = [
+  ...(automated ? [{ type: 'publication' as const, entry: automated, relevance: 'Demonstrates automated structuring of open-source information for nonproliferation research.' }] : []),
+  ...(framework ? [{ type: 'publication' as const, entry: framework, relevance: 'Develops a framework for evaluating whether language models could materially assist CBRN production processes.' }] : []),
+  ...(chips ? [{ type: 'publication' as const, entry: chips, relevance: 'Uses trade and supply-chain data to investigate the continued movement of Western semiconductors to Russia.' }] : []),
+  ...(compute ? [{ type: 'project' as const, entry: compute, relevance: 'Examines how verification, due diligence and infrastructure observability affect the feasibility of compute governance.' }] : []),
+];
+
+const methodAreas = [
+  {
+    title: 'AI-enabled research and investigation',
+    description: 'Methods for using language models and other computational techniques to identify, structure and assess information from heterogeneous open sources while retaining links to the underlying evidence.',
+    items: ['Open-source intelligence', 'Document and archival analysis', 'Entity and relationship extraction', 'Investigative workflows', 'Evidence synthesis'],
+  },
+  {
+    title: 'Knowledge graphs and data integration',
+    description: 'Approaches for connecting technologies, organizations, people, transactions, controls and risk indicators across otherwise fragmented datasets.',
+    items: ['Knowledge representation', 'Entity resolution', 'Relationship mapping', 'Supply-chain data', 'Trade and corporate records', 'Sanctions and procurement information'],
+  },
+  {
+    title: 'Decision-support systems',
+    description: 'Structured systems that combine technical information, policy rules and contextual risk indicators to support expert assessment and institutional decisions.',
+    items: ['Dual-use technology assessment', 'Export classification and licensing', 'Research-security due diligence', 'Supply-chain and diversion risk', 'Sanctions and proliferation-finance analysis', 'Escalation and review workflows'],
+  },
+  {
+    title: 'Responsible implementation',
+    description: 'Research into the conditions under which AI-enabled analytical systems can be used transparently and defensibly in consequential institutional settings.',
+    items: ['Provenance', 'Evidentiary traceability', 'Uncertainty', 'Evaluation', 'Auditability', 'Human accountability', 'Domain-expert oversight'],
+  },
+];
+
+const tools = [
+  {
+    title: 'AI-assisted international-security investigation',
+    description: 'Evidence-led workflows for identifying entities, relationships, activities and competing explanations across heterogeneous sources.',
+  },
+  {
+    title: 'Strategic supply-chain analysis',
+    description: 'Methods for combining trade, corporate, sanctions and technical information to examine technology flows and potential diversion.',
+  },
+  {
+    title: 'Dual-use decision support',
+    description: 'Structured approaches supporting technology classification, licensing assessment, research-security review and end-use analysis.',
+  },
+  {
+    title: 'Knowledge representation for technology security',
+    description: 'Knowledge graphs and domain models connecting technologies, actors, transactions, policy instruments and risk indicators.',
+  },
+];
+---
+
+<Base title={title} description={description} pageStructuredData={pageStructuredData}>
+  <div class="container" style="padding-block: var(--space-2xl);">
+    <h1>{title}</h1>
+
+    <section class="prose" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="visually-hidden">Introduction</h2>
+      <p>
+        A cross-cutting strand of my work develops and evaluates AI and data methods for international-security research and decision support. This includes AI-assisted open-source analysis, knowledge graphs, entity and relationship extraction, supply-chain analysis and structured tools for assessing sanctions, proliferation and dual-use technology risks.
+      </p>
+      <p>
+        My interest is not simply in automating existing analytical tasks. I examine how computational systems can combine technical and policy knowledge, preserve evidence and provenance, represent uncertainty and support accountable human judgement. Developing working prototypes makes it possible to test methodological claims against real analytical and institutional requirements.
+      </p>
+    </section>
+
+    <section class="proposition" aria-labelledby="proposition-heading">
+      <h2 id="proposition-heading" class="visually-hidden">Methodological proposition</h2>
+      <p>
+        The central methodological question is not whether AI can produce an answer, but whether an analytical system can show how that answer was reached, what evidence supports it, where uncertainty remains and which judgements must remain human.
+      </p>
+    </section>
+
+    <section class="method-areas" aria-labelledby="areas-heading">
+      <h2 id="areas-heading" class="visually-hidden">Methodological areas</h2>
+      <div class="method-grid">
+        {methodAreas.map((area) => (
+          <article class="card method-card">
+            <h3>{area.title}</h3>
+            <p>{area.description}</p>
+            <ul>
+              {area.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {evidenceItems.length > 0 && (
+      <section class="evidence-section" aria-labelledby="evidence-heading">
+        <h2 id="evidence-heading">Selected research and applications</h2>
+        <div class="evidence-grid">
+          {evidenceItems.map((item) => (
+            <article class="evidence-item">
+              <p class="evidence-relevance">{item.relevance}</p>
+              {item.type === 'publication' ? (
+                <PublicationCard publication={item.entry} displayOnly />
+              ) : (
+                <ProjectCard project={item.entry} />
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="tools-section" aria-labelledby="tools-heading">
+      <h2 id="tools-heading">Selected tools and prototypes</h2>
+      <p class="tools-introduction">
+        These are research methods and developing capabilities rather than commercial products.
+      </p>
+      <div class="method-grid">
+        {tools.map((tool) => (
+          <article class="card method-card">
+            <h3>{tool.title}</h3>
+            <p>{tool.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="boundary-section" aria-labelledby="boundary-heading">
+      <h2 id="boundary-heading" class="visually-hidden">Relationship with FusionLabs</h2>
+      <p>
+        I develop these methods as part of my research into the practical implementation of technology-security policy. Selected operational and commercial applications are developed separately through FusionLabs.
+      </p>
+      <p>
+        <ExternalLink href="https://www.fusionlabs.info/" class="btn btn--secondary">Operational and commercial applications at FusionLabs</ExternalLink>
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .proposition {
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    color: var(--navy);
+    max-width: var(--max-prose);
+    margin-block: var(--space-2xl);
+    padding: var(--space-l);
+    border-left: 4px solid var(--copper);
+    background: #fff;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .method-areas,
+  .evidence-section,
+  .tools-section,
+  .boundary-section {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border);
+  }
+
+  .method-grid,
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 720px) {
+    .method-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .method-card h3 {
+    margin-top: 0;
+  }
+
+  .method-card ul {
+    padding-left: 1.25em;
+    margin-bottom: 0;
+  }
+
+  .evidence-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-l);
+  }
+
+  .evidence-relevance {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin-top: 0;
+  }
+
+  .tools-introduction {
+    color: var(--muted);
+  }
+</style>

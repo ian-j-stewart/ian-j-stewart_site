@@ -13,9 +13,8 @@ This file tracks missing, incomplete or unverified content for the site. Review 
 ## Missing profile and contact information
 
 - ORCID profile URL: add to `src/content/settings/site.yml` under `person.orcid` when available.
-- Google Scholar profile URL: add to `src/content/settings/site.yml` under `person.googleScholar` when available.
-- Academic contact email: confirmed and added as `istewart@middlebury.edu`; the owner should verify this remains correct.
 - CNS expert profile URL: the `person.cns` field currently points to `https://nonproliferation.org/experts/ian_stewart/`; verify that this URL resolves and update if a different CNS page is preferred.
+- Google Scholar and education details (MSc / MEng awarding institutions) have been confirmed and added.
 
 ## Book covers and images
 
