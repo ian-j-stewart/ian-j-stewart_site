@@ -4,7 +4,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const essays = await getCollection('essays', (e) => !e.data.draft);
+  const essays = await getCollection('essays', (e) => !e.data.draft && !e.data.externalUrl);
   return essays.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },

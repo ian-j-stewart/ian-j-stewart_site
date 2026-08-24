@@ -6,7 +6,7 @@ status: "Developing"
 themes:
   - "nuclear-technology-strategic-autonomy"
 draft: false
-order: 3
+order: 2
 questions:
   - "How does technological dependence relate to claims of nuclear independence?"
   - "What are the dependencies of the United Kingdom's deterrent?"

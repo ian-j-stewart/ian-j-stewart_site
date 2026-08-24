@@ -1,7 +1,7 @@
 ---
-title: "About Ian Stewart"
+title: "About Ian J. Stewart"
 description: "Biography of Dr Ian J. Stewart, international-security scholar and Executive Director of the CNS Washington, DC office."
-heading: "About Ian Stewart"
+heading: "About Ian J. Stewart"
 ---
 
 Dr Ian J. Stewart is Executive Director of the Washington, DC office of the James Martin Center for Nonproliferation Studies. An international-security scholar and practitioner, his research examines the governance of strategically consequential technologies: how states seek to control their diffusion, protect sensitive knowledge and infrastructure, and manage their effects on international security.

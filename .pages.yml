@@ -369,6 +369,18 @@ content:
             value: nuclear-technology-strategic-autonomy
           - label: Technology Control and Economic Statecraft
             value: technology-control-economic-statecraft
+      - name: featuredOnThemes
+        label: Feature on selected research-theme pages
+        help: Use this to hand-pick publications that should appear at the top of a research-theme page. Up to eight will be shown.
+        type: select
+        list: true
+        options:
+          - label: AI, Compute and Emerging Technology
+            value: ai-compute-emerging-technology
+          - label: Nuclear Technology and Strategic Autonomy
+            value: nuclear-technology-strategic-autonomy
+          - label: Technology Control and Economic Statecraft
+            value: technology-control-economic-statecraft
       - name: featured
         label: Feature on homepage
         type: boolean
@@ -406,11 +418,17 @@ content:
         type: string
       - name: status
         label: Status
+        help: Choose a specific status only when it has been confirmed. 'Developing' is treated as a placeholder and is not shown on cards.
         type: select
         options:
           - Current
           - Developing
           - Completed
+          - Working paper in development
+          - Article project
+          - Longer-term research programme
+          - Book concept
+          - Active institutional research
       - name: themes
         label: Research theme IDs
         type: select

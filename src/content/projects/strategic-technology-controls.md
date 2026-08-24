@@ -6,7 +6,7 @@ status: "Developing"
 themes:
   - "technology-control-economic-statecraft"
 draft: false
-order: 4
+order: 3
 questions:
   - "How does technological diffusion interact with strategic-technology controls?"
   - "How are export controls being used in strategic competition?"

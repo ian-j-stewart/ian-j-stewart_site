@@ -9,14 +9,14 @@ interface Props {
 const { project } = Astro.props;
 const { title, summary, status, themes } = project.data;
 
-const statusLabel = status === 'Developing' ? 'Developing research agenda' : status;
+const hideStatus = !status || status === 'Developing';
 ---
 
 <article class="card project-card">
   <h3 class="project-title">
     <a href={`/projects/${project.id}/`}>{title}</a>
   </h3>
-  <p class="project-status">{statusLabel}</p>
+  {!hideStatus && <p class="project-status">{status}</p>}
   <p class="project-summary">{summary}</p>
   {themes.length > 0 && <TagList tags={themes} />}
 </article>

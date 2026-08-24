@@ -14,11 +14,13 @@ const { settings, title, description, image, pageType = 'website', pageStructure
 const site = settings.data;
 const canonical = Astro.url.href;
 const ogImage = image ?? site.defaultImage ?? '';
+const isDefaultImage = ogImage && ogImage === site.defaultImage;
 
 const sameAs = Object.values(site.person ?? {}).filter(Boolean) as string[];
+const personId = `${site.siteUrl}#person`;
 const personLd = sameAs.length
   ? {
-      '@context': 'https://schema.org',
+      '@id': personId,
       '@type': 'Person',
       name: 'Ian J. Stewart',
       jobTitle: site.institution?.title,
@@ -31,17 +33,30 @@ const personLd = sameAs.length
     }
   : undefined;
 
+const websiteId = `${site.siteUrl}#website`;
 const websiteLd = {
-  '@context': 'https://schema.org',
+  '@id': websiteId,
   '@type': 'WebSite',
   name: site.siteTitle,
   url: site.siteUrl,
   description: site.siteDescription,
 };
 
-const structured: unknown[] = [websiteLd];
-if (personLd) structured.push(personLd);
-if (pageStructuredData) structured.push(pageStructuredData);
+const graph: Record<string, unknown>[] = [websiteLd];
+if (personLd) graph.push(personLd);
+
+if (pageStructuredData) {
+  const pageNode = { ...pageStructuredData };
+  if (pageNode['@context']) delete pageNode['@context'];
+  pageNode['@id'] = pageNode['@id'] ?? `${canonical}#main-entity`;
+  pageNode['mainEntityOfPage'] = { '@id': canonical };
+  graph.push(pageNode);
+}
+
+const structured = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
 ---
 
 <meta charset="utf-8" />
@@ -49,17 +64,28 @@ if (pageStructuredData) structured.push(pageStructuredData);
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#102033" />
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={pageType} />
 <meta property="og:url" content={canonical} />
 {ogImage && <meta property="og:image" content={new URL(ogImage, site.siteUrl).href} />}
+{isDefaultImage && (
+  <>
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portrait of Ian J. Stewart" />
+  </>
+)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 {ogImage && <meta name="twitter:image" content={new URL(ogImage, site.siteUrl).href} />}
+{isDefaultImage && <meta name="twitter:image:alt" content="Portrait of Ian J. Stewart" />}
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(structured)} />
 

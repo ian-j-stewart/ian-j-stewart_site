@@ -20,19 +20,19 @@ const { publication, project, essay } = Astro.props;
     <div class="featured-grid">
       {publication && (
         <div>
-          <h3 class="featured-kind">Publication</h3>
+          <p class="featured-kind">Publication</p>
           <PublicationCard publication={publication} />
         </div>
       )}
       {project && (
         <div>
-          <h3 class="featured-kind">Project</h3>
+          <p class="featured-kind">Project</p>
           <ProjectCard project={project} />
         </div>
       )}
       {essay && (
         <div>
-          <h3 class="featured-kind">Essay</h3>
+          <p class="featured-kind">Essay</p>
           <EssayCard essay={essay} />
         </div>
       )}

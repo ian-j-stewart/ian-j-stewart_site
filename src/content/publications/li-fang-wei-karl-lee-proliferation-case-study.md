@@ -11,8 +11,8 @@ status: "Published"
 venue: "Project Alpha Case Study Series"
 publisher: "Project Alpha, King's College London"
 citation: "Salisbury, Daniel, and Ian J. Stewart. *Li Fang Wei (Karl Lee): Proliferation Case Study*. Project Alpha Case Study Series. London: King's College London, 2014."
-externalUrl: "http://npsglobal.org/eng/images/stories/pdf/karllee.pdf"
-pdfUrl: "http://npsglobal.org/eng/images/stories/pdf/karllee.pdf"
+externalUrl: "https://npsglobal.org/eng/images/stories/pdf/karllee.pdf"
+pdfUrl: "https://npsglobal.org/eng/images/stories/pdf/karllee.pdf"
 themes:
   - "technology-control-economic-statecraft"
 draft: false

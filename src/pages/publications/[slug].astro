@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PublicationMeta from '../../components/PublicationMeta.astro';
+import PublicationActions from '../../components/PublicationActions.astro';
 import { getCollection, render } from 'astro:content';
 import { getThemeLabel } from '../../lib/themeLabels';
 
@@ -16,6 +18,29 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
+function escapeHtml(str: string) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function citationToHtml(citation: string) {
+  return citation
+    .split('*')
+    .map((part, index) =>
+      index % 2 === 1 ? `<cite>${escapeHtml(part)}</cite>` : escapeHtml(part)
+    )
+    .join('');
+}
+
+function citationToPlain(citation: string) {
+  return citation.replace(/\*/g, '');
+}
+
+const plainDescription = data.summary ?? (data.citation ? citationToPlain(data.citation) : undefined);
 const typeToSchemaType: Record<string, string> = {
   'Monograph': 'Book',
   'Edited volume': 'Book',
@@ -30,30 +55,40 @@ const typeToSchemaType: Record<string, string> = {
 };
 
 const schemaType = typeToSchemaType[data.type] ?? 'Article';
-const authorsForSchema = data.authors.length > 0 ? data.authors : data.editors ?? [];
+const contributorProp = data.type === 'Edited volume' ? 'editor' : 'author';
+const contributorNames = data.type === 'Edited volume' ? data.editors : (data.authors.length > 0 ? data.authors : data.editors);
 
-const structuredData = {
-  '@context': 'https://schema.org',
+let isPartOf: Record<string, unknown> | undefined = undefined;
+if (data.venue) {
+  if (data.type === 'Book chapter') {
+    isPartOf = { '@type': 'Book', name: data.venue };
+  } else if (['Peer-reviewed article', 'Professional article', 'Commentary', 'Essay'].includes(data.type)) {
+    isPartOf = { '@type': 'Periodical', name: data.venue };
+  }
+}
+
+const pageUrl = Astro.url.href;
+
+const structuredData: Record<string, unknown> = {
+  '@id': pageUrl,
   '@type': schemaType,
   name: data.title,
-  author: authorsForSchema.map((name) => ({ '@type': 'Person', name })),
+  [contributorProp]: contributorNames.map((name) => ({ '@type': 'Person', name })),
   datePublished: data.year ? String(data.year) : undefined,
   publisher: data.publisher ? { '@type': 'Organization', name: data.publisher } : undefined,
-  isPartOf: data.venue
-    ? {
-        '@type': data.type === 'Book chapter' ? 'Book' : 'Periodical',
-        name: data.venue,
-      }
-    : undefined,
-  url: `${Astro.site}publications/${entry.id}/`,
+  identifier: data.doi ? `https://doi.org/${data.doi}` : undefined,
+  url: pageUrl,
 };
 
-const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.doi;
+if (isPartOf) {
+  structuredData.isPartOf = isPartOf;
+}
+
 ---
 
 <Base
   title={data.title}
-  description={data.summary ?? data.citation ?? `Publication by Ian J. Stewart: ${data.title}`}
+  description={plainDescription ?? `Publication by Ian J. Stewart: ${data.title}`}
   pageType="article"
   pageStructuredData={structuredData}
 >
@@ -63,22 +98,7 @@ const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.
     <h1>{data.title}</h1>
     {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
 
-    <p class="publication-meta">
-      {data.authors.length > 0 && <span>{data.authors.join(', ')}</span>}
-      {data.year && <span>{data.year}</span>}
-      <span>{data.type}</span>
-      {data.status && data.status !== 'Published' && <span class="status">{data.status}</span>}
-    </p>
-
-    {(data.venue || data.publisher) && (
-      <p class="publication-venue">
-        {data.venue && <em>{data.venue}</em>}
-        {data.volume && <span>{data.volume}</span>}
-        {data.issue && <span>({data.issue})</span>}
-        {data.pages && <span>{data.pages}</span>}
-        {data.publisher && data.publisher !== data.venue && <span>{data.publisher}</span>}
-      </p>
-    )}
+    <PublicationMeta publication={entry} />
 
     {data.doi && (
       <p class="publication-doi">
@@ -98,14 +118,7 @@ const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.
       </p>
     )}
 
-    {hasButtons && (
-      <div class="publication-actions">
-        {data.externalUrl && <a href={data.externalUrl} class="btn btn--primary external" rel="external noopener">Read full text</a>}
-        {data.publisherUrl && <a href={data.publisherUrl} class="btn btn--secondary external" rel="external noopener">Publisher page</a>}
-        {data.doi && <a href={`https://doi.org/${data.doi}`} class="btn btn--secondary external" rel="external noopener">DOI</a>}
-        {data.pdfUrl && <a href={data.pdfUrl} class="btn btn--secondary external" rel="external noopener">Download PDF</a>}
-      </div>
-    )}
+    <PublicationActions publication={entry} variant="detail" />
 
     {data.summary && (
       <div class="prose" style="margin-top: var(--space-xl);">
@@ -117,7 +130,7 @@ const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.
     {data.citation && (
       <div class="citation-box" style="margin-top: var(--space-xl);">
         <h2>Suggested citation</h2>
-        <p class="citation">{data.citation}</p>
+        <p class="citation" set:html={citationToHtml(data.citation)} />
       </div>
     )}
 
@@ -138,28 +151,6 @@ const hasButtons = data.externalUrl || data.publisherUrl || data.pdfUrl || data.
     color: var(--muted);
     font-style: italic;
     margin-top: calc(var(--space-xs) * -1);
-  }
-
-  .publication-meta,
-  .publication-venue {
-    font-size: var(--step--1);
-    color: var(--muted);
-    margin: 0 0 var(--space-s);
-  }
-
-  .publication-meta > *:not(:last-child)::after,
-  .publication-venue > *:not(:last-child)::after {
-    content: " · ";
-    color: var(--border);
-  }
-
-  .publication-venue em {
-    font-style: italic;
-  }
-
-  .status {
-    color: var(--copper);
-    font-weight: 500;
   }
 
   .publication-doi,

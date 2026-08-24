@@ -67,7 +67,11 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       </p>
     )}
 
-    <div class="filters" role="group" aria-label="Filter publications">
+    <form class="filters" role="search" aria-label="Filter publications">
+      <label class="filter-keyword">
+        Search
+        <input type="search" data-filter="keyword" placeholder="Search title, author, venue or summary" />
+      </label>
       <label>
         Research theme
         <select data-filter="theme">
@@ -95,7 +99,11 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
           ))}
         </select>
       </label>
-    </div>
+      <button type="button" class="btn btn--secondary" data-filter="clear">Clear filters</button>
+    </form>
+
+    <p class="results-count" aria-live="polite" data-results-count></p>
+    <p class="no-results" data-no-results hidden>No publications match the selected filters.</p>
 
     <div class="publications-list" data-publications>
       {typeGroups.map((group) => {
@@ -112,6 +120,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
                   data-year={p.data.year ?? ''}
                   data-themes={p.data.themes.join(',')}
                   data-current="false"
+                  data-search={((p.data.title ?? '') + ' ' + (p.data.subtitle ?? '') + ' ' + (p.data.authors?.join(' ') ?? '') + ' ' + (p.data.venue ?? '') + ' ' + (p.data.publisher ?? '') + ' ' + (p.data.summary ?? '')).toLowerCase()}
                 >
                   <PublicationCard publication={p} displayOnly />
                 </li>
@@ -131,6 +140,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
                 data-year={p.data.year ?? ''}
                 data-themes={p.data.themes.join(',')}
                 data-current="true"
+                data-search={((p.data.title ?? '') + ' ' + (p.data.subtitle ?? '') + ' ' + (p.data.authors?.join(' ') ?? '') + ' ' + (p.data.venue ?? '') + ' ' + (p.data.publisher ?? '') + ' ' + (p.data.summary ?? '')).toLowerCase()}
               >
                 <PublicationCard publication={p} displayOnly />
               </li>
@@ -144,30 +154,92 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
 
 <script is:inline>
   (function () {
-    const selects = document.querySelectorAll('[data-filter]');
-    const items = document.querySelectorAll('[data-publications] li');
-    if (!selects.length || !items.length) return;
+    const form = document.querySelector('[role="search"]');
+    const keywordInput = document.querySelector('[data-filter="keyword"]');
+    const themeSelect = document.querySelector('[data-filter="theme"]');
+    const typeSelect = document.querySelector('[data-filter="type"]');
+    const yearSelect = document.querySelector('[data-filter="year"]');
+    const clearButton = document.querySelector('[data-filter="clear"]');
+    const resultCount = document.querySelector('[data-results-count]');
+    const noResults = document.querySelector('[data-no-results]');
+    const list = document.querySelector('[data-publications]');
+    const items = list ? list.querySelectorAll('li') : [];
+    const sections = document.querySelectorAll('[data-publications] .pub-section');
 
-    function getValue(name) {
-      const el = document.querySelector('[data-filter="' + name + '"]');
-      return el ? el.value : '';
+    function getFilterValues() {
+      return {
+        keyword: keywordInput ? keywordInput.value.trim().toLowerCase() : '',
+        theme: themeSelect ? themeSelect.value : '',
+        type: typeSelect ? typeSelect.value : '',
+        year: yearSelect ? yearSelect.value : '',
+      };
+    }
+
+    function setFilterValues(values) {
+      if (keywordInput) keywordInput.value = values.keyword || '';
+      if (themeSelect) themeSelect.value = values.theme || '';
+      if (typeSelect) typeSelect.value = values.type || '';
+      if (yearSelect) yearSelect.value = values.year || '';
     }
 
     function apply() {
-      const theme = getValue('theme');
-      const type = getValue('type');
-      const year = getValue('year');
+      const { keyword, theme, type, year } = getFilterValues();
+      let visibleCount = 0;
 
       items.forEach((item) => {
         const t = (item.getAttribute('data-themes') || '').split(',');
         const matchesTheme = !theme || t.includes(theme);
         const matchesType = !type || item.getAttribute('data-type') === type;
         const matchesYear = !year || item.getAttribute('data-year') === year;
-        item.classList.toggle('is-hidden', !(matchesTheme && matchesType && matchesYear));
+        const matchesKeyword = !keyword || (item.getAttribute('data-search') || '').indexOf(keyword) !== -1;
+        const isVisible = matchesTheme && matchesType && matchesYear && matchesKeyword;
+        item.classList.toggle('is-hidden', !isVisible);
+        if (isVisible) visibleCount++;
+      });
+
+      sections.forEach((section) => {
+        const visibleItems = section.querySelectorAll('li:not(.is-hidden)');
+        section.classList.toggle('is-hidden', visibleItems.length === 0);
+      });
+
+      if (resultCount) {
+        resultCount.textContent = visibleCount + (visibleCount === 1 ? ' publication' : ' publications');
+      }
+      if (noResults) {
+        noResults.hidden = visibleCount > 0;
+      }
+
+      const params = new URLSearchParams();
+      if (keyword) params.set('keyword', keyword);
+      if (theme) params.set('theme', theme);
+      if (type) params.set('type', type);
+      if (year) params.set('year', year);
+      const query = params.toString();
+      const newUrl = query ? '?' + query : window.location.pathname;
+      if (window.location.search !== (query ? '?' + query : '')) {
+        window.history.replaceState({}, '', newUrl);
+      }
+    }
+
+    function clear() {
+      setFilterValues({ keyword: '', theme: '', type: '', year: '' });
+      apply();
+      if (keywordInput) keywordInput.focus();
+    }
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      setFilterValues({
+        keyword: params.get('keyword') || '',
+        theme: params.get('theme') || '',
+        type: params.get('type') || '',
+        year: params.get('year') || '',
       });
     }
 
-    selects.forEach((select) => select.addEventListener('change', apply));
+    if (form) form.addEventListener('input', apply);
+    if (clearButton) clearButton.addEventListener('click', clear);
+    restoreFromQuery();
     apply();
   })();
 </script>
@@ -207,6 +279,41 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
     margin: 0;
   }
 
+  .filters input[type="search"] {
+    padding: 0.5em 0.75em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    font-size: var(--step-0);
+    color: var(--charcoal);
+    min-width: 18rem;
+  }
+
+  .filter-keyword {
+    flex: 1 1 100%;
+  }
+
+  @media (min-width: 720px) {
+    .filter-keyword {
+      flex: 2 1 auto;
+    }
+  }
+
+  .results-count {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin-bottom: var(--space-s);
+  }
+
+  .no-results {
+    margin-top: var(--space-l);
+    padding: var(--space-l);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .pub-section.is-hidden,
   .pub-items li.is-hidden {
     display: none;
   }

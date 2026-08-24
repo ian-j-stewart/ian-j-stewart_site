@@ -4,7 +4,7 @@ This file tracks missing, incomplete or unverified content for the site. Review 
 
 ## Added assets
 
-- `src/assets/ian-stewart.jpg`: a portrait has been added for the homepage hero. The owner should confirm it is the image they want to use and that they are happy with the crop.
+- `src/assets/ian-stewart.jpg`: a portrait has been added for the homepage hero. The owner should confirm it is the image they want to use and that they are happy with the crop. A more formal professional portrait would improve the site if one becomes available.
 
 ## Missing assets
 
@@ -24,5 +24,7 @@ This file tracks missing, incomplete or unverified content for the site. Review 
 ## Biographical and factual confirmation
 
 - Ian should review the publication list in `PUBLICATION-AUDIT.md` for accuracy and confirm any items marked as uncertain.
+- The `featuredOnThemes` field now lets Ian hand-pick publications on research-theme pages. Initial selections should be reviewed, and the automated type-and-year fallback for the eight-item limit should not be treated as a judgement of academic importance.
 - Professional portrait permission and cropping should be approved by the subject before deployment.
 - Academic CV and contact email require owner confirmation.
+- Awarding institutions for the MSc and MEng degrees require confirmation before they are added.

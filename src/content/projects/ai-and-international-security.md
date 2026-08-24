@@ -6,7 +6,7 @@ status: "Developing"
 themes:
   - "ai-compute-emerging-technology"
 draft: false
-order: 2
+order: 4
 questions:
   - "How does AI risk intersect with international security?"
   - "What are the military and intelligence uses of AI, and how should they be governed?"

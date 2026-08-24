@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  publication: CollectionEntry<'publications'>;
+}
+
+const { publication } = Astro.props;
+const data = publication.data;
+
+function normaliseAuthor(name: string) {
+  const n = name.trim();
+  if (n === 'Ian Stewart' || n === 'Ian J Stewart' || n === 'I. Stewart' || n === 'I Stewart' || /^Stewart,\s*I(an)?(\s*J\.?)?$/i.test(n)) {
+    return 'Ian J. Stewart';
+  }
+  return n;
+}
+
+function listNames(names: string[]): string {
+  const formatted = names.map(normaliseAuthor);
+  if (formatted.length === 0) return '';
+  if (formatted.length === 1) return formatted[0] ?? '';
+  if (formatted.length === 2) return `${formatted[0] ?? ''} and ${formatted[1] ?? ''}`;
+  return `${formatted.slice(0, -1).join(', ')} and ${formatted[formatted.length - 1] ?? ''}`;
+}
+
+const isEditedVolume = data.type === 'Edited volume';
+
+let byline = '';
+if (isEditedVolume && data.editors.length > 0) {
+  byline = `Edited by ${listNames(data.editors)}`;
+} else if (data.authors.length > 0) {
+  byline = listNames(data.authors);
+} else if (data.editors.length > 0) {
+  byline = `Edited by ${listNames(data.editors)}`;
+}
+
+const metaItems: string[] = [];
+if (byline) metaItems.push(byline);
+if (data.year) metaItems.push(String(data.year));
+if (data.type) metaItems.push(data.type);
+if (data.status && data.status !== 'Published') metaItems.push(data.status);
+
+const venueDetails: { text: string; isVenue?: boolean }[] = [];
+if (data.venue) venueDetails.push({ text: data.venue, isVenue: true });
+if (data.volume) venueDetails.push({ text: `Vol. ${data.volume}` });
+if (data.issue) venueDetails.push({ text: `No. ${data.issue}` });
+if (data.pages) venueDetails.push({ text: `pp. ${data.pages}` });
+if (data.publisher && data.publisher !== data.venue) venueDetails.push({ text: data.publisher });
+---
+
+{metaItems.length > 0 && (
+  <p class="publication-meta">
+    {metaItems.map((item, index) => (
+      <>
+        {index > 0 && <span class="publication-meta__sep"> · </span>}
+        <span class="publication-meta__item" data-field="byline">{item}</span>
+      </>
+    ))}
+  </p>
+)}
+
+{venueDetails.length > 0 && (
+  <p class="publication-venue">
+    {venueDetails.map((detail, index) => (
+      <>
+        {index > 0 && <span class="publication-venue__sep"> · </span>}
+        {detail.isVenue ? (
+          <em class="publication-venue__item publication-venue__venue">{detail.text}</em>
+        ) : (
+          <span class="publication-venue__item">{detail.text}</span>
+        )}
+      </>
+    ))}
+  </p>
+)}
+
+<style>
+  .publication-meta,
+  .publication-venue {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin: 0 0 var(--space-s);
+  }
+
+  .publication-meta__item,
+  .publication-venue__item {
+    display: inline;
+  }
+
+  .publication-venue__venue {
+    font-style: italic;
+  }
+
+  .publication-meta__sep,
+  .publication-venue__sep {
+    color: var(--border);
+  }
+</style>

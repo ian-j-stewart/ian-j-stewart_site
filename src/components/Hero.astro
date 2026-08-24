@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import ianStewart from '../assets/ian-stewart.jpg';
 
 interface Button {
   label: string;
@@ -16,10 +17,7 @@ interface Props {
 }
 
 const { eyebrow, heading, descriptor, intro, primaryButton, secondaryButton } = Astro.props;
-const photos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/ian-stewart.png');
-const photoLoader = photos['/src/assets/ian-stewart.png'];
-const Photo = photoLoader ? await photoLoader() : null;
-const hasPhoto = !!Photo;
+const hasPhoto = true;
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
@@ -45,10 +43,14 @@ const hasPhoto = !!Photo;
     {hasPhoto && (
       <div class="hero-photo">
         <Image
-          src={Photo.default}
+          src={ianStewart}
           alt="Portrait of Ian J. Stewart"
           width={480}
+          height={480}
+          widths={[320, 480, 640, 800]}
+          sizes="(max-width: 900px) 90vw, 28rem"
           class="hero-img"
+          loading="eager"
         />
       </div>
     )}

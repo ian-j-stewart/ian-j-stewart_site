@@ -18,9 +18,33 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const themeId = entry.id;
 
-const relatedPublications = (await getCollection('publications', (p) => !p.data.draft && p.data.themes.includes(themeId))).sort(
-  (a, b) => (b.data.year ?? 0) - (a.data.year ?? 0)
-);
+const relatedPublications = await getCollection('publications', (p) => !p.data.draft && p.data.themes.includes(themeId));
+
+const typeRank: Record<string, number> = {
+  'Monograph': 0,
+  'Edited volume': 1,
+  'Peer-reviewed article': 2,
+  'Major report': 3,
+  'Policy paper': 4,
+  'Book chapter': 5,
+  'Professional article': 6,
+  'Commentary': 7,
+  'Essay': 8,
+  'Institutional output': 9,
+};
+
+const sortedPublications = [...relatedPublications].sort((a, b) => {
+  const aFeatured = a.data.featuredOnThemes.includes(themeId) ? 0 : 1;
+  const bFeatured = b.data.featuredOnThemes.includes(themeId) ? 0 : 1;
+  if (aFeatured !== bFeatured) return aFeatured - bFeatured;
+  const aRank = typeRank[a.data.type] ?? 99;
+  const bRank = typeRank[b.data.type] ?? 99;
+  if (aRank !== bRank) return aRank - bRank;
+  return (b.data.year ?? 0) - (a.data.year ?? 0);
+});
+
+const displayPublications = sortedPublications.slice(0, 8);
+const hasMorePublications = relatedPublications.length > displayPublications.length;
 const relatedProjects = (await getCollection('projects', (p) => !p.data.draft && p.data.themes.includes(themeId))).sort(
   (a, b) => a.data.order - b.data.order
 );
@@ -73,12 +97,17 @@ const relatedEssays = (await getCollection('essays', (e) => !e.data.draft && e.d
       </section>
     )}
 
-    {relatedPublications.length > 0 && (
+    {displayPublications.length > 0 && (
       <section aria-labelledby="publications-heading" class="related-section">
         <h2 id="publications-heading">Related books and publications</h2>
-        {relatedPublications.map((publication) => (
+        {displayPublications.map((publication) => (
           <PublicationCard publication={publication} />
         ))}
+        {hasMorePublications && (
+          <p>
+            <a href={`/publications/?theme=${themeId}`} class="btn btn--secondary">View all publications in this research area</a>
+          </p>
+        )}
       </section>
     )}
 

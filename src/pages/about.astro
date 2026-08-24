@@ -14,7 +14,7 @@ const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sor
   (a, b) => a.data.order - b.data.order
 );
 
-const { person, institution } = settings?.data ?? {};
+const { person, institution, contact } = settings?.data ?? {};
 ---
 
 <Base title={page.data.title} description={page.data.description}>
@@ -78,9 +78,22 @@ const { person, institution } = settings?.data ?? {};
       </section>
     )}
 
+    {contact?.academicEmail && (
+      <section class="about-section" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Academic contact</h2>
+        <p><a href={`mailto:${contact.academicEmail}`}>{contact.academicEmail}</a></p>
+      </section>
+    )}
+
     <section class="about-section" aria-labelledby="profiles-heading">
       <h2 id="profiles-heading">External profiles</h2>
       <ul class="profile-links">
+        {person?.orcid && (
+          <li><ExternalLink href={person.orcid}>ORCID</ExternalLink></li>
+        )}
+        {person?.googleScholar && (
+          <li><ExternalLink href={person.googleScholar}>Google Scholar</ExternalLink></li>
+        )}
         {person?.linkedin && (
           <li><ExternalLink href={person.linkedin}>LinkedIn</ExternalLink></li>
         )}
@@ -89,9 +102,6 @@ const { person, institution } = settings?.data ?? {};
         )}
         {institution?.url && (
           <li><ExternalLink href={institution.url}>Institutional profile</ExternalLink></li>
-        )}
-        {person?.fusionlabs && (
-          <li><ExternalLink href={person.fusionlabs}>FusionLabs</ExternalLink></li>
         )}
         {person?.nonproarchive && (
           <li><ExternalLink href={person.nonproarchive}>Nonproliferation Archive</ExternalLink></li>

@@ -2,7 +2,7 @@
 title: "Home"
 description: "Ian J. Stewart is an international-security scholar and practitioner researching strategic technology governance."
 heading: "Ian J. Stewart"
-eyebrow: "International Security and Strategic Technology"
+eyebrow: "International-security scholar and practitioner"
 descriptor: "Strategic Technology and International Security"
 intro: "My research examines how states and institutions control, protect and use technologies central to national security and international power."
 primaryButton:

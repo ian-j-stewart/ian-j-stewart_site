@@ -85,3 +85,4 @@ This file records the migration of Ian J. Stewart's publication inventory to `ia
 - The exact `issue` field for some Nonpro Notes entries; many are left blank where no issue number was available.
 - The CNS expert page URL (`https://nonproliferation.org/experts/ian_stewart/`) should be verified as the correct, stable page.
 - The `LLM/CBRN` Nonpro Note, `Western chips/Russia` analysis and recent 2024–2026 pieces are linked to the URLs provided; Ian should confirm they remain current.
+- `The Contribution of Intangible Technology Controls in Controlling the Spread of Strategic Technologies` PDF is still served over HTTP (`http://www.str.ulg.ac.be/...`); the HTTPS endpoint presents a self-signed certificate, so it has not been upgraded without an authoritative replacement.

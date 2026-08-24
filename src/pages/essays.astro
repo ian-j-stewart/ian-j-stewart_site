@@ -27,7 +27,7 @@ const essayPublications = (await getCollection('publications', (p) => !p.data.dr
 
     {essays.length > 0 && (
       <section class="essay-section" aria-labelledby="essays-heading">
-        <h2 id="essays-heading" class="section-heading-h2">Essays</h2>
+        <h2 id="essays-heading" class="section-heading-h2">Selected essays</h2>
         <div class="essay-grid">
           {essays.map((essay) => (
             <EssayCard essay={essay} />

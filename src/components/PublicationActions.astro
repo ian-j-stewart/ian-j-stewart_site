@@ -1,0 +1,89 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  publication: CollectionEntry<'publications'>;
+  detailUrl?: string;
+  variant?: 'card' | 'detail';
+}
+
+const { publication, detailUrl, variant = 'detail' } = Astro.props;
+const data = publication.data;
+const isCard = variant === 'card';
+
+function normaliseUrl(href: string) {
+  return href.replace(/^https?:\/\//i, '').replace(/\/$/, '').toLowerCase();
+}
+
+const seen = new Set<string>();
+const actions: { href: string; label: string; isExternal: boolean }[] = [];
+
+function addAction(href: string | undefined, label: string) {
+  if (!href) return;
+  const key = normaliseUrl(href);
+  if (seen.has(key)) return;
+  seen.add(key);
+  actions.push({ href, label, isExternal: true });
+}
+
+function viewLabel(type: string) {
+  const articleTypes = ['Peer-reviewed article', 'Professional article', 'Commentary', 'Essay', 'Book chapter'];
+  return articleTypes.includes(type) ? 'View article' : 'View publication';
+}
+
+let doiHref = data.doi ? `https://doi.org/${data.doi}` : undefined;
+if (!doiHref && data.externalUrl?.startsWith('https://doi.org/')) {
+  doiHref = data.externalUrl;
+}
+
+if (data.externalUrl) {
+  const url = data.externalUrl.toLowerCase();
+  if (data.externalUrl === doiHref) {
+    // de-duplicate DOI; will be added via DOI field
+  } else if (url.endsWith('.pdf')) {
+    addAction(data.externalUrl, 'Download PDF');
+  } else if (data.externalUrl.startsWith('https://doi.org/')) {
+    addAction(data.externalUrl, 'DOI');
+  } else {
+    addAction(data.externalUrl, viewLabel(data.type));
+  }
+}
+
+if (data.publisherUrl) {
+  addAction(data.publisherUrl, 'Publisher page');
+}
+
+if (doiHref) {
+  addAction(doiHref, 'DOI');
+}
+
+if (data.pdfUrl) {
+  const url = data.pdfUrl.toLowerCase();
+  const label = url.endsWith('.pdf') ? 'Download PDF' : 'View PDF';
+  addAction(data.pdfUrl, label);
+}
+---
+
+{actions.length > 0 && (
+  <div class="publication-actions">
+    {detailUrl && (
+      <a href={detailUrl} class={`btn ${isCard ? 'btn--small' : ''} btn--secondary`}>
+        View publication
+      </a>
+    )}
+    {actions.map((action, index) => {
+      const isPrimary = !isCard && index === 0;
+      const classes = [
+        'btn',
+        isPrimary ? 'btn--primary' : 'btn--secondary',
+        isCard ? 'btn--small' : '',
+        action.isExternal ? 'external' : '',
+      ].filter(Boolean).join(' ');
+      return (
+        <a href={action.href} class={classes} rel={action.isExternal ? 'external noopener' : undefined}>
+          {action.label}
+        </a>
+      );
+    })}
+  </div>
+)}
