@@ -15,6 +15,8 @@ externalUrl: "https://strategictraderesearch.org/wp-content/uploads/2023/02/Ian-
 pdfUrl: "https://strategictraderesearch.org/wp-content/uploads/2023/02/Ian-Stewart-Export-Controls.pdf"
 themes:
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
 draft: false
 ---
 

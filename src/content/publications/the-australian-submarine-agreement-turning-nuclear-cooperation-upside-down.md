@@ -12,6 +12,8 @@ citation: "Stewart, Ian J. ‘The Australian Submarine Agreement: Turning Nuclea
 externalUrl: "https://thebulletin.org/2021/09/the-australian-submarine-agreement-turning-nuclear-cooperation-upside-down/"
 themes:
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 displayOnEssays: true
 draft: false
 ---

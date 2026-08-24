@@ -116,6 +116,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
             <ul class="pub-items">
               {items.map((p) => (
                 <li
+                  data-publication-item
                   data-type={p.data.type}
                   data-year={p.data.year ?? ''}
                   data-themes={p.data.themes.join(',')}
@@ -136,6 +137,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
           <ul class="pub-items">
             {current.map((p) => (
               <li
+                data-publication-item
                 data-type={p.data.type}
                 data-year={p.data.year ?? ''}
                 data-themes={p.data.themes.join(',')}
@@ -163,7 +165,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
     const resultCount = document.querySelector('[data-results-count]');
     const noResults = document.querySelector('[data-no-results]');
     const list = document.querySelector('[data-publications]');
-    const items = list ? list.querySelectorAll('li') : [];
+    const items = list ? list.querySelectorAll('[data-publication-item]') : [];
     const sections = document.querySelectorAll('[data-publications] .pub-section');
 
     function getFilterValues() {
@@ -198,7 +200,7 @@ const hasCv = existsSync('public/ian-j-stewart-cv.pdf');
       });
 
       sections.forEach((section) => {
-        const visibleItems = section.querySelectorAll('li:not(.is-hidden)');
+        const visibleItems = section.querySelectorAll('[data-publication-item]:not(.is-hidden)');
         section.classList.toggle('is-hidden', visibleItems.length === 0);
       });
 

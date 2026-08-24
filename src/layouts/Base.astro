@@ -11,9 +11,10 @@ interface Props {
   image?: string | undefined;
   pageType?: string | undefined;
   pageStructuredData?: Record<string, unknown> | undefined;
+  noindex?: boolean | undefined;
 }
 
-const { title, description, image, pageType, pageStructuredData } = Astro.props;
+const { title, description, image, pageType, pageStructuredData, noindex } = Astro.props;
 const settings = await getEntry('settings', 'site');
 if (!settings) throw new Error('Missing site settings');
 const settingsData = settings.data;
@@ -32,6 +33,7 @@ const pageTitle = title
       image={image}
       pageType={pageType}
       pageStructuredData={pageStructuredData}
+      noindex={noindex}
     />
   </head>
   <body>

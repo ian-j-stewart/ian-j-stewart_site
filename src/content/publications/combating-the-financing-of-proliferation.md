@@ -15,6 +15,8 @@ externalUrl: "https://doi.org/10.1108/jfc-06-2019-0082"
 citation: "Stewart, Ian J., Andrea Viski and Jonathan Brewer. ‘Combating the Financing of Proliferation: Challenges and New Tools.’ *Journal of Financial Crime* (2020)."
 themes:
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
 draft: false
 ---
 

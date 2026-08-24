@@ -17,6 +17,8 @@ doi: "10.1080/10736700.2019.1702317"
 externalUrl: "https://doi.org/10.1080/10736700.2019.1702317"
 themes:
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 draft: false
 ---
 

@@ -14,6 +14,8 @@ externalUrl: "https://nonproliferation.org/how-and-how-many-western-chips-are-ge
 themes:
   - "technology-control-economic-statecraft"
   - "ai-compute-emerging-technology"
+featuredOnThemes:
+  - "ai-compute-emerging-technology"
 displayOnEssays: true
 draft: false
 ---

@@ -14,6 +14,9 @@ externalUrl: "https://popups.uliege.be/2952-7597/index.php?id=185"
 themes:
   - "nuclear-technology-strategic-autonomy"
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
+  - "nuclear-technology-strategic-autonomy"
 draft: false
 ---
 

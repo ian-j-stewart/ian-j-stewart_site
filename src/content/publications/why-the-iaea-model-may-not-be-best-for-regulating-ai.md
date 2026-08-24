@@ -12,6 +12,8 @@ citation: "Stewart, Ian J. ‘Why the IAEA model may not be best for regulating 
 externalUrl: "https://thebulletin.org/2023/07/why-the-iaea-model-may-not-be-best-for-regulating-artificial-intelligence/"
 themes:
   - "ai-compute-emerging-technology"
+featuredOnThemes:
+  - "ai-compute-emerging-technology"
 displayOnEssays: true
 draft: false
 ---

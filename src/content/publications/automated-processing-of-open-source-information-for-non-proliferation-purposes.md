@@ -20,6 +20,8 @@ pdfUrl: "https://www.ingentaconnect.com/content/inmm/jnmm/2018/00000046/00000003
 themes:
   - "ai-compute-emerging-technology"
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "ai-compute-emerging-technology"
 draft: false
 ---
 

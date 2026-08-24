@@ -17,6 +17,9 @@ externalUrl: "https://doi.org/10.4324/9781003194262"
 publisherUrl: "https://www.routledge.com/International-Nuclear-Export-Controls-and-Non-Proliferation-The-Collective-Action-Problem/Stewart/p/book/9781032046884"
 themes:
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
+  - "nuclear-technology-strategic-autonomy"
 featured: true
 order: 1
 draft: false

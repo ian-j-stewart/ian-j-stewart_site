@@ -8,9 +8,10 @@ interface Props {
   image?: string | undefined;
   pageType?: string | undefined;
   pageStructuredData?: Record<string, unknown> | undefined;
+  noindex?: boolean | undefined;
 }
 
-const { settings, title, description, image, pageType = 'website', pageStructuredData } = Astro.props;
+const { settings, title, description, image, pageType = 'website', pageStructuredData, noindex } = Astro.props;
 const site = settings.data;
 const canonical = Astro.url.href;
 const ogImage = image ?? site.defaultImage ?? '';
@@ -18,11 +19,13 @@ const isDefaultImage = ogImage && ogImage === site.defaultImage;
 
 const sameAs = Object.values(site.person ?? {}).filter(Boolean) as string[];
 const personId = `${site.siteUrl}#person`;
-const personLd = sameAs.length
+const hasPersonData = sameAs.length > 0 || !!site.contact?.academicEmail;
+const personLd = hasPersonData
   ? {
       '@id': personId,
       '@type': 'Person',
       name: 'Ian J. Stewart',
+      email: site.contact?.academicEmail,
       jobTitle: site.institution?.title,
       worksFor: {
         '@type': 'Organization',
@@ -64,6 +67,7 @@ const structured = {
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex,follow" />}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#102033" />
@@ -77,7 +81,7 @@ const structured = {
   <>
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Portrait of Ian J. Stewart" />
+    <meta property="og:image:alt" content="Ian J. Stewart — Strategic Technology and International Security" />
   </>
 )}
 
@@ -85,7 +89,7 @@ const structured = {
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 {ogImage && <meta name="twitter:image" content={new URL(ogImage, site.siteUrl).href} />}
-{isDefaultImage && <meta name="twitter:image:alt" content="Portrait of Ian J. Stewart" />}
+{isDefaultImage && <meta name="twitter:image:alt" content="Ian J. Stewart — Strategic Technology and International Security" />}
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(structured)} />
 

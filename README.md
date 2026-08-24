@@ -9,7 +9,7 @@ Personal academic website for Dr Ian J. Stewart — an international-security sc
 - **Language:** TypeScript in strict mode
 - **Content:** Astro content collections, Markdown/MDX and YAML
 - **CMS:** Pages CMS configured via `.pages.yml`
-- **Hosting:** Cloudflare Pages (recommended), connected to GitHub `main`
+- **Hosting:** Cloudflare Workers Builds with static assets, connected to the GitHub `main` branch
 
 ## Local installation
 
@@ -33,7 +33,7 @@ The dev server runs on `http://localhost:4321` by default.
 npm run build
 ```
 
-Output is written to `dist/`. To preview:
+Static output is written to `dist/`. Any file placed in `public/` (such as `public/_redirects`) is copied to `dist/` and included in the deployed asset bundle. To preview:
 
 ```bash
 npm run preview
@@ -92,15 +92,17 @@ Collections are defined in `src/content.config.ts` and stored in `src/content/`.
 2. Fill in title, authors, year, `type`, `status`, `venue` and `ianRole`.
 3. Add a DOI, `externalUrl`, `publisherUrl` or `pdfUrl` where available.
 4. Add an abstract in the body.
-5. Mark `draft: true` until it is ready.
-6. The publication automatically gets a detail page at `/publications/[slug]/`.
+5. Optionally set `featuredOnThemes` to hand-pick up to eight publications to appear first on a research-theme page. Only assign a publication if its themes already include that research theme.
+6. Mark `draft: true` until it is ready.
+7. The publication automatically gets a detail page at `/publications/[slug]/`.
 
 ## How to add an essay
 
 1. Create a Markdown file in `src/content/essays/` or use the **Essays** collection in Pages CMS.
 2. Set `title`, `date` and optional `externalUrl` for off-site pieces.
 3. Add the essay body, or leave the body empty if the piece links externally.
-4. Mark `draft: true` until it is ready.
+4. If the essay used to have a local detail page, add a redirect to `public/_redirects` so the old URL does not 404.
+5. Mark `draft: true` until it is ready.
 
 ## How `displayOnEssays` works
 
@@ -109,6 +111,8 @@ Publication records with `displayOnEssays: true` appear on the Essays page under
 ## How current research is managed
 
 Current research agendas live in `src/content/projects/` and are displayed on the **Current Research** page (`/projects/`). Each record can include a `proposition`, central `questions`, related publication IDs and related essay IDs.
+
+The `status` field controls the project card label. `Developing` is a placeholder and is not shown. Only use a more specific status such as `Working paper in development`, `Article project`, `Book concept` or `Active institutional research` when it has been confirmed.
 
 ## How featured work is selected
 
@@ -119,6 +123,21 @@ Featured items for the homepage are set in `src/content/settings/site.yml` under
 - `Published` — shown in the main bibliography.
 - `Forthcoming`, `Under contract`, `In development` — shown in the **Current work** section only if at least one record has one of these statuses.
 - `draft: true` — never rendered publicly.
+
+## How to set contact and profile links
+
+Edit `src/content/settings/site.yml`:
+
+- `contact.academicEmail` — used for academic, research and speaking enquiries.
+- `contact.advisoryEmail` — used for advisory and commercial enquiries through FusionLabs.
+- `contact.linkedin` — LinkedIn profile link.
+- `person.orcid` — ORCID iD, when available.
+- `person.googleScholar` — Google Scholar profile URL, when available.
+- `person.cns` — CNS profile page.
+- `person.nonproarchive` — Nonpro Archive profile page.
+- `person.fusionlabs` — FusionLabs website.
+
+Only enter values that have been confirmed. Empty profile fields are not shown in the public UI.
 
 ## How to add a CV
 
@@ -134,16 +153,27 @@ Place a JPG at `src/assets/ian-stewart.jpg`. The hero and About page will use it
 2. Log in with GitHub.
 3. Edit collections directly; commits are written back to `main`.
 
-## Cloudflare build settings
+## Cloudflare deployment
 
-Use these settings in Cloudflare Pages:
+The site is built and deployed through **Cloudflare Workers Builds**, not Cloudflare Pages.
 
-- **Framework preset:** Astro
+- The Worker is connected to the GitHub repository `ian-j-stewart/ian-j-stewart_site`.
+- **Production branch:** `main`
 - **Build command:** `npm run build`
 - **Output directory:** `dist`
-- **Production branch:** `main`
+- **Static assets:** All files in `public/` are copied to `dist/` and served from the Worker, including `public/_redirects`.
 
-Cloudflare will build and deploy automatically when `main` changes. Deployment secrets are not stored in the repository.
+### Automatic builds
+
+Cloudflare triggers a new build and deploys when `main` is pushed to GitHub. The deployed commit hash can be verified by checking the `X-Robots-Tag` or response headers, or by comparing the generated `dist/index.html` source with the live site.
+
+### Manual rebuild
+
+Use the Cloudflare Workers Builds dashboard to trigger a manual rebuild, or use the project’s deploy hook. The deploy-hook URL, API tokens and passwords are not committed to this repository.
+
+### Redirects
+
+Redirects are declared in `public/_redirects`. Cloudflare’s `_redirects` syntax is used. Ensure `dist/_redirects` is present after `npm run build`; it is copied from `public/_redirects` during the static build.
 
 ## Validation before committing
 

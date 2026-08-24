@@ -17,7 +17,7 @@ const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sor
 const { person, institution, contact } = settings?.data ?? {};
 ---
 
-<Base title={page.data.title} description={page.data.description}>
+<Base title="About" description={page.data.description}>
   <div class="container" style="padding-block: var(--space-2xl);">
     <h1>{page.data.heading}</h1>
 

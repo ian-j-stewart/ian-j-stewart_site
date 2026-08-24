@@ -15,6 +15,8 @@ externalUrl: "https://www.europarl.europa.eu/RegData/etudes/STUD/2015/535000/EXP
 pdfUrl: "https://www.europarl.europa.eu/RegData/etudes/STUD/2015/535000/EXPO_STU(2015)535000_EN.pdf"
 themes:
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
 draft: false
 ---
 

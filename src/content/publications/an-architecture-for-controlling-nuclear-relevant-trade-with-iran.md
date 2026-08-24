@@ -14,6 +14,8 @@ externalUrl: "https://www.kcl.ac.uk/news/an-architecture-for-controlling-nuclear
 themes:
   - "nuclear-technology-strategic-autonomy"
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 draft: false
 ---
 

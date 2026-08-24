@@ -19,6 +19,8 @@ publisherUrl: "https://www.cambridge.org/core/books/preventing-black-market-trad
 themes:
   - "technology-control-economic-statecraft"
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
 draft: false
 ---
 

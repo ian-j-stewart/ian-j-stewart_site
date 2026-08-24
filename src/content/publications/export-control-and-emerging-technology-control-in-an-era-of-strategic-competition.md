@@ -14,6 +14,8 @@ externalUrl: "https://nonproliferation.org/export-control-and-emerging-technolog
 themes:
   - "technology-control-economic-statecraft"
   - "ai-compute-emerging-technology"
+featuredOnThemes:
+  - "ai-compute-emerging-technology"
 draft: false
 ---
 

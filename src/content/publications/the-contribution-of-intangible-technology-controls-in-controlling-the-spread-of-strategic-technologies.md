@@ -16,6 +16,8 @@ externalUrl: "http://www.str.ulg.ac.be/wp-content/uploads/2016/01/4_The_Contribu
 pdfUrl: "http://www.str.ulg.ac.be/wp-content/uploads/2016/01/4_The_Contribution_of_Intangible_Technology_Controls_in_Controlling_the_Spread-of-Strategic-Technologies.pdf"
 themes:
   - "technology-control-economic-statecraft"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
 draft: false
 ---
 

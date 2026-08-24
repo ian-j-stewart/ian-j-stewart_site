@@ -18,6 +18,8 @@ externalUrl: "https://nonproliferation.org/the-status-of-the-front-end-of-saudi-
 pdfUrl: "https://nonproliferation.org/wp-content/uploads/2020/10/Nonpro-Note-status-of-front-end-Saudi-Arbia-nuclear-fuel-cycle.pdf"
 themes:
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 draft: false
 ---
 

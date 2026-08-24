@@ -13,6 +13,9 @@ externalUrl: "https://thebulletin.org/2024/09/are-new-us-export-controls-rules-o
 themes:
   - "technology-control-economic-statecraft"
   - "ai-compute-emerging-technology"
+featuredOnThemes:
+  - "technology-control-economic-statecraft"
+  - "ai-compute-emerging-technology"
 displayOnEssays: true
 draft: false
 ---

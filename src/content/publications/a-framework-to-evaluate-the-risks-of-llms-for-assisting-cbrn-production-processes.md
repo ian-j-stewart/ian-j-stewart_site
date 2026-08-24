@@ -12,6 +12,8 @@ citation: "Stewart, Ian J. ‘A Framework to Evaluate the Risks of LLMs for Assi
 externalUrl: "https://nonproliferation.org/a-framework-to-evaluate-the-risks-of-llms-for-assisting-cbrn-production-processes/"
 themes:
   - "ai-compute-emerging-technology"
+featuredOnThemes:
+  - "ai-compute-emerging-technology"
 displayOnEssays: true
 draft: false
 ---

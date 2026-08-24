@@ -12,6 +12,8 @@ citation: "Stewart, Ian J. ‘Brazil wants special treatment for its nuclear sub
 externalUrl: "https://thebulletin.org/2022/07/brazil-wants-special-treatment-for-its-nuclear-submarine-program-just-like-australia/"
 themes:
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 displayOnEssays: true
 draft: false
 ---

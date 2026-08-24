@@ -12,6 +12,8 @@ citation: "Stewart, Ian J. ‘UK Considers Reintroducing Air-Launched Tactical N
 externalUrl: "https://thebulletin.org/2025/06/uk-considers-reintroducing-air-launched-tactical-nuclear-weapons/"
 themes:
   - "nuclear-technology-strategic-autonomy"
+featuredOnThemes:
+  - "nuclear-technology-strategic-autonomy"
 displayOnEssays: true
 draft: false
 ---

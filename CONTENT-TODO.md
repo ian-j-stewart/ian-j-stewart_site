@@ -14,7 +14,7 @@ This file tracks missing, incomplete or unverified content for the site. Review 
 
 - ORCID profile URL: add to `src/content/settings/site.yml` under `person.orcid` when available.
 - Google Scholar profile URL: add to `src/content/settings/site.yml` under `person.googleScholar` when available.
-- Academic contact email: add to `src/content/settings/site.yml` under `contact.academicEmail` when confirmed.
+- Academic contact email: confirmed and added as `istewart@middlebury.edu`; the owner should verify this remains correct.
 - CNS expert profile URL: the `person.cns` field currently points to `https://nonproliferation.org/experts/ian_stewart/`; verify that this URL resolves and update if a different CNS page is preferred.
 
 ## Book covers and images
@@ -28,3 +28,5 @@ This file tracks missing, incomplete or unverified content for the site. Review 
 - Professional portrait permission and cropping should be approved by the subject before deployment.
 - Academic CV and contact email require owner confirmation.
 - Awarding institutions for the MSc and MEng degrees require confirmation before they are added.
+- Contracted-book status or any `Working paper in development` / `Book concept` status should only be assigned when explicitly confirmed.
+- The `externalUrl` / `pdfUrl` for `The Contribution of Intangible Technology Controls...` remains `http://` because the HTTPS endpoint presents a self-signed certificate; do not upgrade it unless an authoritative replacement is available.
