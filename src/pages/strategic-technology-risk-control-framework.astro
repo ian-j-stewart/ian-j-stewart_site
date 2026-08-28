@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import assessments from '../data/technology-assessments.json';
+
+const title = 'Strategic Technology Risk & Control Framework';
+const description = 'A framework by Ian J. Stewart for assessing the security significance, foreign availability, controllability and appropriate governance of emerging and strategic technologies.';
+const settings = await getEntry('settings', 'site');
+const siteUrl = settings?.data.siteUrl ?? 'https://ian-j-stewart.com';
+const personId = `${siteUrl}#person`;
+const websiteId = `${siteUrl}#website`;
+const pageStructuredData = {
+  '@id': `${siteUrl}/strategic-technology-risk-control-framework/#main-entity`,
+  '@type': 'ScholarlyArticle',
+  headline: title,
+  description,
+  url: `${siteUrl}/strategic-technology-risk-control-framework/`,
+  author: { '@id': personId },
+  isPartOf: { '@id': websiteId },
+  datePublished: '2026-08-28',
+  dateModified: '2026-08-28',
+};
+---
+
+<Base title={title} description={description} pageStructuredData={pageStructuredData}>
+  <div class="container framework-page">
+    <section class="hero">
+      <p class="eyebrow">Academic contribution · Strategic technology governance</p>
+      <h1>{title}</h1>
+      <p class="lede">A framework for assessing when emerging and strategic technologies create material security risks, whether external controls can meaningfully reduce those risks, and which policy instruments are proportionate to the problem.</p>
+      <div class="meta"><span>Ian J. Stewart</span><span>Version 1.0</span><span>August 2026</span><span>Living framework</span></div>
+
+      <div class="proposition">
+        <strong>Core proposition.</strong> Strategic technology controls should begin with the security outcome they are intended to achieve—not with the availability of a regulatory tool. A technology may be security-significant but effectively uncontrollable; conversely, a technology may be readily controllable but insufficiently consequential to justify restriction. The central question is not simply whether a technology is sensitive, but whether intervention can materially change the relevant actor’s access, capability or behaviour at acceptable cost.
+      </div>
+
+      <div class="contribution-grid">
+        <article class="card">
+          <p class="eyebrow">Contribution</p>
+          <h2>A risk-to-control methodology</h2>
+          <p>The framework separates six analytical questions that are often collapsed together: what the technology is; what security effect it creates; what policy outcome is realistically achievable; whether equivalent capability is already available elsewhere; whether the technology is practically controllable; and which governance instruments best fit the remaining problem.</p>
+          <p>It is intended to support comparative analysis across AI, advanced compute, semiconductors, quantum technologies, autonomous systems, missiles, advanced manufacturing and other strategic technologies.</p>
+        </article>
+        <article class="card citation-card">
+          <p class="eyebrow">Suggested citation</p>
+          <p class="citation">Stewart, Ian J. (2026), “Strategic Technology Risk & Control Framework,” Version 1.0, ian-j-stewart.com.</p>
+          <p class="small">Future versions should retain version dates so changes in technology and control policy remain traceable.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">The method</p>
+      <h2>Six questions, in sequence</h2>
+      <p class="intro">The sequence matters. Security concern does not itself establish that a control should exist. Foreign availability and practical controllability determine whether denial can plausibly change the outcome.</p>
+      <div class="steps">
+        <article class="step"><span>01</span><h3>Define the technology</h3><p>Identify the relevant capability at the right level of granularity.</p><ul><li>Maturity</li><li>System vs component</li><li>Hardware, software, data and know-how</li><li>Constituent technologies</li><li>Supply-chain chokepoints</li></ul></article>
+        <article class="step"><span>02</span><h3>Establish the security concern</h3><p>Ask what actually changes if an actor acquires or uses it.</p><ul><li>Direct weapon or enabling technology?</li><li>State vs non-state actor</li><li>Capability gain vs scale gain</li><li>Problematic end uses</li><li>Recipient and location</li></ul></article>
+        <article class="step"><span>03</span><h3>Set a realistic objective</h3><p>Define the intended security outcome before selecting the instrument.</p><ul><li>Prevent</li><li>Slow</li><li>Deny national-origin support</li><li>Prevent onward transfer</li><li>Develop / Define / Facilitate</li></ul></article>
+        <article class="step"><span>04</span><h3>Test foreign availability</h3><p>Determine whether denial can materially affect access.</p><ul><li>Equivalent Chinese capability?</li><li>Other foreign suppliers?</li><li>Performance gap</li><li>Volume and scalability</li><li>Substitution timeframe</li></ul></article>
+        <article class="step"><span>05</span><h3>Assess controllability</h3><p>Determine whether a control can work in practice.</p><ul><li>Scarcity and specialization</li><li>Observability</li><li>Threshold stability</li><li>Verification potential</li><li>Implementation capacity</li><li>Indigenization effects</li></ul></article>
+        <article class="step"><span>06</span><h3>Select the control architecture</h3><p>Match instruments to the actual transfer pathway and objective.</p><ul><li>Multilateral / plurilateral</li><li>Item, end-use and entity controls</li><li>Research and intangible transfer</li><li>Investment / data / supply chain</li><li>Technical safeguards</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Foreign availability</p>
+      <h2>The foreign-availability test is a decision gate</h2>
+      <p>Controls intended to <strong>prevent or slow acquisition</strong> depend on leverage. If the target actor can obtain an equivalent technology from domestic or alternative foreign suppliers in sufficient quantity and on an acceptable timescale, restricting one country’s exports will normally have little effect on the underlying capability.</p>
+      <div class="decision">
+        <h3>Working rule</h3>
+        <p><strong>If an equivalent capability is already available from China—or from other suppliers outside the controlling coalition—an access-denial control will generally not be justified on effectiveness grounds.</strong> The burden shifts to showing what marginal security effect the restriction would still achieve.</p>
+        <div class="decision-grid">
+          <div><strong>Control may still make sense where:</strong> the foreign alternative is materially inferior; supply is scarce; substitution would impose meaningful delay or cost; the objective is to deny national-origin support rather than prevent the capability; the restriction protects classified or proprietary know-how; or coordinated controls could close the alternative supply route.</div>
+          <div><strong>Control is unlikely to make sense where:</strong> equivalent technology is already indigenously available at scale; alternative suppliers can readily substitute; the measure merely shifts market share; implementation is easy to evade; or the principal result is to accelerate indigenous development without materially slowing the security-relevant capability.</div>
+        </div>
+      </div>
+      <div class="three-grid">
+        <article class="card"><h3>Equivalence</h3><p>Is the alternative genuinely equivalent for the security-relevant use, rather than merely in the same product category?</p></article>
+        <article class="card"><h3>Scale and timing</h3><p>Can the alternative be supplied at the volume, reliability and timescale required? A technically available substitute may still leave meaningful leverage.</p></article>
+        <article class="card"><h3>Coalition coverage</h3><p>Foreign availability is partly endogenous. A technology may be uncontrollable unilaterally but controllable through a sufficiently comprehensive supplier coalition.</p></article>
+      </div>
+    </section>
+
+    <section class="section-block non-assistance">
+      <p class="eyebrow">A separate rationale</p>
+      <h2>When capability denial is not feasible</h2>
+      <p>Failure of a capability-denial strategy does not necessarily mean that exports should be unrestricted. Even where a programme of concern can obtain an equivalent technology elsewhere, it may remain appropriate to prohibit exports of national-origin goods, software, technology, services or know-how to that programme, to specified end uses, or to entities of concern.</p>
+      <p>In these cases the policy objective is different. The purpose is not to claim that the restriction will prevent the underlying capability from existing, but to <strong>deny national-origin support</strong> and avoid directly contributing to an activity judged to present a security concern. This distinction is especially important where broad item-based controls would be ineffective but targeted programme-, end-use- or entity-based restrictions remain justified.</p>
+      <div class="two-grid">
+        <article class="card"><h3>Capability-denial objective</h3><p>Can controls prevent or materially slow the actor from acquiring the relevant capability?</p></article>
+        <article class="card"><h3>Non-assistance objective</h3><p>Even if the capability cannot be prevented, should national-origin technology or expertise be allowed to contribute directly to the programme?</p></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Security significance</p>
+      <h2>Risk is contextual, not inherent in a label</h2>
+      <div class="three-grid">
+        <article class="card"><h3>Capability effect</h3><p>Does the technology enable something an actor could not otherwise do, or principally make an existing activity cheaper, faster or more scalable?</p></article>
+        <article class="card"><h3>Actor and end use</h3><p>The same technology can create different risks in commercial, military, intelligence, WMD or research settings—and for state versus non-state actors.</p></article>
+        <article class="card"><h3>Location and access</h3><p>Risk may arise through physical possession, remote access, cloud services, collaboration, technical data or onward diversion. Geography alone is an incomplete proxy.</p></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Policy objective</p>
+      <h2>The objective spectrum</h2>
+      <div class="objective-list">
+        <span><strong>Prevent</strong> — stop acquisition or emergence</span>
+        <span><strong>Slow</strong> — increase time, cost or difficulty</span>
+        <span><strong>Deny national-origin support</strong> — prevent domestic goods, technology, software, services or know-how from directly supporting a programme or entity of concern</span>
+        <span><strong>Prevent onward transfer</strong> — contain diffusion beyond existing holders</span>
+        <span><strong>Develop</strong> — strengthen national or allied capability</span>
+        <span><strong>Define</strong> — improve understanding before regulating</span>
+        <span><strong>Facilitate</strong> — enable benign access subject to safeguards</span>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Controllability</p>
+      <h2>Can intervention work in practice?</h2>
+      <div class="three-grid">
+        <article class="card"><h3>Technical controllability</h3><ul><li>Can the relevant capability be identified?</li><li>Is there a meaningful and durable performance threshold?</li><li>Can controls target specialized components rather than ubiquitous systems?</li><li>Can location, identity or use be verified?</li></ul></article>
+        <article class="card"><h3>Market controllability</h3><ul><li>How concentrated are suppliers and chokepoints?</li><li>What does foreign availability do to leverage?</li><li>Can the recipient substitute or indigenize?</li><li>Will restriction accelerate indigenous alternatives?</li></ul></article>
+        <article class="card"><h3>Governance controllability</h3><ul><li>Can relevant suppliers align?</li><li>Can licensing and enforcement bodies implement the measure?</li><li>Can companies and universities understand their obligations?</li><li>Can benign allied trade be facilitated safely?</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Control architecture</p>
+      <h2>Technology governance is broader than export licensing</h2>
+      <div class="four-grid">
+        <article class="control-card"><h3>Item and end-use controls</h3><p>Regime-based lists, unilateral controls, WMD or military catch-alls and entity-based restrictions.</p></article>
+        <article class="control-card"><h3>Knowledge and research controls</h3><p>Intangible technology transfer, university implementation, researcher or student vetting and research security.</p></article>
+        <article class="control-card"><h3>Capital, data and supply chain</h3><p>FDI screening, outbound investment, information security, foreign-controlled data exposure and supply-chain resilience.</p></article>
+        <article class="control-card"><h3>Technical and organizational safeguards</h3><p>Location or use verification, recipient-based assurance, access controls, monitoring and measures that can facilitate lower-risk trade.</p></article>
+      </div>
+    </section>
+
+    <section class="section-block" id="monitor">
+      <p class="eyebrow">Living research application</p>
+      <h2>Emerging Technology Security & Control Monitor</h2>
+      <p class="intro">The table provides a comparative assessment across technology areas. Select a technology to read the fuller analytical judgment. The detailed assessments are maintained separately from the page layout so they can be revised as the research develops.</p>
+      <div class="filters" aria-label="Filter technologies"><button type="button" class="active" data-filter="all">All</button><button type="button" data-filter="digital">Digital</button><button type="button" data-filter="quantum">Quantum</button><button type="button" data-filter="weapons">Weapons</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Technology</th><th>Security concern</th><th>Maturity</th><th>Policy objective</th><th>Control status</th><th>Foreign availability</th><th>Controllability</th></tr></thead>
+          <tbody>
+            {assessments.map((tech) => (
+              <>
+                <tr class="summary-row" data-category={tech.category} data-id={tech.id} tabindex="0" role="button" aria-expanded="false">
+                  <td><strong>{tech.name}</strong></td><td>{tech.securityConcern}</td><td>{tech.maturity}</td><td>{tech.policyObjective}</td><td>{tech.controlStatus}</td><td>{tech.foreignAvailability}</td><td>{tech.controllability}</td>
+                </tr>
+                <tr class="detail-row" data-category={tech.category} data-detail-for={tech.id} hidden>
+                  <td colspan="7"><div class="analysis"><p>{tech.analysis}</p><p class="kg"><strong>Technology landscape.</strong> Related companies, products, components and enabling technologies are being mapped in the Strategic Technology Knowledge Graph. This evidence base will be linked here as it is developed.</p></div></td>
+                </tr>
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <p class="eyebrow">Worked application</p>
+      <h2>Advanced AI compute</h2>
+      <div class="worked-grid">
+        <article class="card">
+          <h3>Assessment logic</h3>
+          <p><strong>Technology.</strong> Specialized GPUs and assemblies used for large-scale model training and other high-performance applications.</p>
+          <p><strong>Security concern.</strong> The relevant risk depends on whether compute creates a genuinely new capability or primarily increases scale and efficiency; on whether it is used for training, inference or other strategic computation; and on recipient and location.</p>
+          <p><strong>Policy objective.</strong> Slow access to the highest-value strategic compute while facilitating lower-risk uses where safeguards can provide adequate assurance.</p>
+          <p><strong>Foreign availability.</strong> Control leverage depends on the remaining performance and production gap between Western-origin and Chinese alternatives. As that gap narrows, the justification for access-denial controls weakens unless the measure still imposes meaningful delay or cost.</p>
+          <p><strong>Controllability.</strong> Specialist high-value GPUs are more controllable than ubiquitous processors, but remote access, diversion, firmware circumvention and inability to constrain workloads reduce assurance.</p>
+          <p><strong>Control architecture.</strong> Item controls + recipient or end-use controls + organization-based due diligence + technical verification + monitoring.</p>
+        </article>
+        <article class="profile-card"><h3>Illustrative profile</h3><dl><div><dt>Security significance</dt><dd>High</dd></div><div><dt>Technical specificity</dt><dd>High</dd></div><div><dt>Chinese availability</dt><dd>Partial / growing</dd></div><div><dt>Supplier-coalition leverage</dt><dd>Material</dd></div><div><dt>Verification feasibility</dt><dd>Medium</dd></div><div><dt>Indigenization pressure</dt><dd>High</dd></div><div><dt>Overall controllability</dt><dd>Medium</dd></div></dl></article>
+      </div>
+      <div class="method-note"><p class="eyebrow">Methodological note</p><h3>Interpretation, not mechanical scoring</h3><p>The framework deliberately avoids a single numerical risk score. Judgments about strategic significance, foreign availability and controllability involve uncertainty and can change quickly as technologies mature, suppliers emerge and controls evolve. The value of the framework is to make those judgments explicit, comparable and contestable.</p></div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const summaryRows = document.querySelectorAll('.summary-row');
+  const detailRows = document.querySelectorAll('.detail-row');
+
+  function toggleRow(row) {
+    const id = row.getAttribute('data-id');
+    const detail = document.querySelector(`[data-detail-for="${id}"]`);
+    if (!detail) return;
+    const expanded = row.getAttribute('aria-expanded') === 'true';
+    row.setAttribute('aria-expanded', String(!expanded));
+    detail.hidden = expanded;
+  }
+
+  summaryRows.forEach((row) => {
+    row.addEventListener('click', () => toggleRow(row));
+    row.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleRow(row);
+      }
+    });
+  });
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.getAttribute('data-filter');
+      filterButtons.forEach((b) => b.classList.remove('active'));
+      button.classList.add('active');
+      summaryRows.forEach((row) => {
+        const match = filter === 'all' || row.getAttribute('data-category') === filter;
+        row.hidden = !match;
+        const id = row.getAttribute('data-id');
+        const detail = document.querySelector(`[data-detail-for="${id}"]`);
+        if (detail && !match) detail.hidden = true;
+        if (!match) row.setAttribute('aria-expanded', 'false');
+      });
+      detailRows.forEach((row) => {
+        if (filter !== 'all' && row.getAttribute('data-category') !== filter) row.hidden = true;
+      });
+    });
+  });
+</script>
+
+<style>
+  .framework-page { padding-block: var(--space-2xl); }
+  .eyebrow { margin: 0 0 var(--space-xs); color: var(--copper); font-size: var(--step--1); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .lede, .intro { max-width: var(--max-prose); font-size: var(--step-1); color: var(--muted); }
+  .meta { display: flex; flex-wrap: wrap; gap: var(--space-s); color: var(--muted); font-size: var(--step--1); margin-top: var(--space-l); }
+  .meta span + span::before { content: '·'; margin-right: var(--space-s); }
+  .proposition { font-family: var(--font-serif); font-size: var(--step-2); color: var(--navy); max-width: var(--max-prose); margin-block: var(--space-2xl); padding: var(--space-l); border-left: 4px solid var(--copper); background: #fff; }
+  .contribution-grid, .three-grid, .two-grid, .four-grid, .worked-grid { display: grid; gap: var(--space-l); margin-top: var(--space-l); }
+  .contribution-grid { grid-template-columns: 1.25fr .75fr; }
+  .three-grid { grid-template-columns: repeat(3, 1fr); }
+  .two-grid { grid-template-columns: repeat(2, 1fr); }
+  .four-grid { grid-template-columns: repeat(4, 1fr); }
+  .worked-grid { grid-template-columns: 1.2fr .8fr; }
+  .citation { font-family: var(--font-serif); font-size: var(--step-1); color: var(--navy); }
+  .small { color: var(--muted); font-size: var(--step--1); }
+  .section-block { margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--border); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-m); margin-top: var(--space-l); }
+  .step { background: #fff; border: 1px solid var(--border); padding: var(--space-l); }
+  .step > span { font-family: var(--font-serif); font-size: var(--step-3); color: var(--copper); }
+  .step ul, .card ul { padding-left: 1.2em; margin-bottom: 0; }
+  .decision { background: var(--navy); color: var(--off-white); padding: var(--space-l); margin-top: var(--space-l); }
+  .decision h3 { color: var(--off-white); }
+  .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); margin-top: var(--space-m); }
+  .decision-grid > div { border: 1px solid rgba(255,255,255,.25); padding: var(--space-m); }
+  .non-assistance { background: #fff; padding: var(--space-xl); border: 1px solid var(--border); }
+  .objective-list { display: flex; flex-wrap: wrap; gap: var(--space-s); margin-top: var(--space-l); }
+  .objective-list span { background: #fff; border: 1px solid var(--border); border-radius: 999px; padding: .45em .8em; font-size: var(--step--1); }
+  .control-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--teal); padding: var(--space-l); }
+  .filters { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-block: var(--space-l) var(--space-m); }
+  .filters button { border: 1px solid var(--navy); background: transparent; color: var(--navy); padding: .45em .8em; font: inherit; cursor: pointer; }
+  .filters button.active, .filters button:hover { background: var(--navy); color: var(--off-white); }
+  .table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--border); }
+  table { width: 100%; min-width: 68rem; border-collapse: collapse; font-size: var(--step--1); }
+  th, td { text-align: left; vertical-align: top; padding: .75rem; border-bottom: 1px solid var(--border); }
+  th { color: var(--navy); background: #f1efe9; }
+  .summary-row { cursor: pointer; }
+  .summary-row:hover, .summary-row:focus { background: #fbfaf7; outline: none; }
+  .summary-row td:first-child strong::after { content: ' +'; color: var(--teal); }
+  .summary-row[aria-expanded='true'] td:first-child strong::after { content: ' –'; }
+  .detail-row td { background: #faf9f5; }
+  .analysis { max-width: 60rem; padding: var(--space-m); }
+  .analysis > p:first-child { font-family: var(--font-serif); font-size: var(--step-1); }
+  .kg { border-top: 1px solid var(--border); padding-top: var(--space-m); color: var(--muted); font-size: var(--step--1); }
+  .profile-card { background: var(--navy); color: var(--off-white); padding: var(--space-l); }
+  .profile-card h3 { color: var(--off-white); }
+  .profile-card dl { margin: 0; }
+  .profile-card dl div { display: flex; justify-content: space-between; gap: var(--space-m); padding-block: .6rem; border-top: 1px solid rgba(255,255,255,.2); }
+  .profile-card dd { margin: 0; font-weight: 700; }
+  .method-note { margin-top: var(--space-l); padding: var(--space-l); background: #fff; border: 1px solid var(--border); }
+  @media (max-width: 900px) { .contribution-grid, .worked-grid, .three-grid, .four-grid { grid-template-columns: 1fr 1fr; } .steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 680px) { .contribution-grid, .worked-grid, .three-grid, .two-grid, .four-grid, .steps, .decision-grid { grid-template-columns: 1fr; } .non-assistance { padding: var(--space-l); } }
+</style>
