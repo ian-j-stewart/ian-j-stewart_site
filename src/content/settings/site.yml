@@ -15,6 +15,11 @@ social: []
 navigation:
   - label: Research
     href: /research/
+  - label: Frameworks
+    href: /frameworks/
+    children:
+      - label: Strategic Technology Risk & Control Framework
+        href: /strategic-technology-risk-control-framework/
   - label: Publications
     href: /publications/
   - label: Current Research
