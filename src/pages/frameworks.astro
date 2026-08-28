@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+
+const title = 'Frameworks';
+const description = 'Analytical frameworks developed by Ian J. Stewart for strategic technology governance, international security and related policy problems.';
+const settings = await getEntry('settings', 'site');
+const siteUrl = settings?.data.siteUrl ?? 'https://ian-j-stewart.com';
+const personId = `${siteUrl}#person`;
+const websiteId = `${siteUrl}#website`;
+
+const pageStructuredData = {
+  '@id': `${siteUrl}/frameworks/#main-entity`,
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${siteUrl}/frameworks/`,
+  isPartOf: { '@id': websiteId },
+  about: { '@id': personId },
+};
+
+const frameworks = [
+  {
+    title: 'Strategic Technology Risk & Control Framework',
+    href: '/strategic-technology-risk-control-framework/',
+    summary: 'A risk-to-control methodology for assessing the security significance, foreign availability and practical controllability of emerging and strategic technologies, and for selecting proportionate policy instruments.',
+    status: 'Version 1.0 · August 2026',
+  },
+];
+---
+
+<Base title={title} description={description} pageStructuredData={pageStructuredData}>
+  <div class="container frameworks-page">
+    <header class="intro prose">
+      <p class="eyebrow">Analytical contributions</p>
+      <h1>Frameworks</h1>
+      <p class="lede">This section brings together analytical frameworks I develop across strategic technology governance and international security. The aim is to make underlying concepts and decision rules explicit, comparable and usable in research and policy analysis.</p>
+      <p>Frameworks are versioned as they develop. They are intended to provide a stable conceptual method while allowing the empirical evidence and technology-specific applications beneath them to evolve.</p>
+    </header>
+
+    <section class="framework-list" aria-labelledby="framework-list-heading">
+      <h2 id="framework-list-heading" class="visually-hidden">Available frameworks</h2>
+      {frameworks.map((framework) => (
+        <article class="card framework-card">
+          <p class="status">{framework.status}</p>
+          <h2><a href={framework.href}>{framework.title}</a></h2>
+          <p>{framework.summary}</p>
+          <p><a class="btn btn--secondary" href={framework.href}>Explore framework</a></p>
+        </article>
+      ))}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .frameworks-page {
+    padding-block: var(--space-2xl);
+  }
+
+  .intro {
+    max-width: 52rem;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--copper);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .lede {
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    color: var(--navy);
+  }
+
+  .framework-list {
+    margin-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-l);
+    max-width: 56rem;
+  }
+
+  .framework-card h2 {
+    margin-top: 0;
+  }
+
+  .framework-card h2 a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .framework-card h2 a:hover,
+  .framework-card h2 a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .status {
+    color: var(--muted);
+    font-size: var(--step--1);
+    margin-bottom: var(--space-xs);
+  }
+</style>

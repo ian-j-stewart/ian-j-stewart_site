@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 
-
 interface Props {
   settings: CollectionEntry<'settings'>;
 }
@@ -15,6 +14,10 @@ function isActive(href: string) {
   const current = currentPath.replace(/\/+$/, '');
   if (base === '') return current === '';
   return current === base || current.startsWith(base + '/');
+}
+
+function itemIsActive(item: (typeof navigation)[number]) {
+  return isActive(item.href) || item.children?.some((child) => isActive(child.href)) || false;
 }
 ---
 
@@ -36,10 +39,23 @@ function isActive(href: string) {
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <ul class="nav-list">
         {navigation.map((item) => {
-          const active = isActive(item.href);
+          const active = itemIsActive(item);
+          const hasChildren = Boolean(item.children?.length);
           return (
-            <li>
-              <a href={item.href} class={`nav-link ${active ? 'nav-link--current' : ''}`} aria-current={active ? 'page' : undefined}>{item.label}</a>
+            <li class={hasChildren ? 'nav-item nav-item--has-children' : 'nav-item'}>
+              <a href={item.href} class={`nav-link ${active ? 'nav-link--current' : ''}`} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+              {hasChildren && (
+                <ul class="subnav" aria-label={`${item.label} submenu`}>
+                  {item.children?.map((child) => {
+                    const childActive = isActive(child.href);
+                    return (
+                      <li>
+                        <a href={child.href} class={childActive ? 'subnav-link subnav-link--current' : 'subnav-link'} aria-current={childActive ? 'page' : undefined}>{child.label}</a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </li>
           );
         })}
@@ -140,32 +156,52 @@ function isActive(href: string) {
     display: block;
   }
 
-  .nav-list {
+  .nav-list,
+  .subnav {
     list-style: none;
     padding: 0;
+  }
+
+  .nav-list {
     margin: var(--space-m) 0 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-s);
   }
 
-  .nav-list li a {
+  .nav-item > a,
+  .subnav a {
     color: var(--off-white);
     text-decoration: none;
-    font-size: var(--step-1);
-    padding: 0.25em 0;
     display: inline-block;
   }
 
-  .nav-list li a:hover,
-  .nav-list li a:focus {
+  .nav-item > a {
+    font-size: var(--step-1);
+    padding: 0.25em 0;
+  }
+
+  .subnav {
+    margin: 0.25rem 0 0 var(--space-m);
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .subnav a {
+    font-size: var(--step--1);
+    color: #e7e6e2;
+    padding: 0.2em 0;
+  }
+
+  .nav-item a:hover,
+  .nav-item a:focus,
+  .subnav-link--current,
+  .nav-link--current {
     color: var(--copper);
     text-decoration: underline;
   }
 
   .nav-link--current {
-    color: var(--copper);
-    text-decoration: underline;
     font-weight: 500;
   }
 
@@ -188,6 +224,42 @@ function isActive(href: string) {
       align-items: center;
       gap: var(--space-l);
       margin: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-item > a {
+      font-size: var(--step--1);
+      white-space: nowrap;
+    }
+
+    .subnav {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 19rem;
+      margin: 0;
+      padding: var(--space-s);
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      z-index: 50;
+    }
+
+    .nav-item--has-children:hover .subnav,
+    .nav-item--has-children:focus-within .subnav {
+      display: grid;
+    }
+
+    .subnav a {
+      display: block;
+      padding: 0.55rem 0.65rem;
+      line-height: 1.35;
     }
   }
 </style>
