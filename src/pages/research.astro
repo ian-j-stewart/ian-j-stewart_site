@@ -43,6 +43,25 @@ const methods = [
     </div>
   </section>
 
+  <section class="frameworks-section" aria-labelledby="frameworks-heading">
+    <div class="container">
+      <SectionHeading
+        title="Analytical frameworks"
+        id="frameworks-heading"
+        description="A recurring strand of my research develops explicit frameworks for assessing strategic-technology and international-security problems. These are intended to clarify concepts, expose assumptions and support comparison across technologies, actors and policy options."
+      />
+      <article class="framework-card card">
+        <p class="framework-status">Version 1.0 · August 2026</p>
+        <h3><a href="/strategic-technology-risk-control-framework/">Strategic Technology Risk & Control Framework</a></h3>
+        <p>A methodology for moving from security concern to realistic policy objective, testing foreign availability and controllability, and selecting an appropriate control architecture.</p>
+        <div class="framework-links">
+          <a href="/strategic-technology-risk-control-framework/" class="btn btn--primary">Explore framework</a>
+          <a href="/frameworks/" class="btn btn--secondary">View all frameworks</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="methods-section" aria-labelledby="methods-heading">
     <div class="container">
       <SectionHeading
@@ -64,6 +83,7 @@ const methods = [
 
 <style>
   .themes-section,
+  .frameworks-section,
   .methods-section {
     padding-block: var(--space-2xl);
   }
@@ -71,6 +91,10 @@ const methods = [
   .themes-section {
     background: #fff;
     border-block: 1px solid var(--border);
+  }
+
+  .frameworks-section {
+    border-bottom: 1px solid var(--border);
   }
 
   .research-grid {
@@ -83,6 +107,40 @@ const methods = [
     .research-grid {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  .framework-card {
+    max-width: 58rem;
+    margin-top: var(--space-l);
+    border-left: 4px solid var(--copper);
+  }
+
+  .framework-card h3 {
+    margin-top: 0;
+    font-size: var(--step-2);
+  }
+
+  .framework-card h3 a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .framework-card h3 a:hover,
+  .framework-card h3 a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .framework-status {
+    color: var(--muted);
+    font-size: var(--step--1);
+    margin-bottom: var(--space-xs);
+  }
+
+  .framework-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
   }
 
   .methods-list {
