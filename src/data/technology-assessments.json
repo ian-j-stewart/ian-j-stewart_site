@@ -1,0 +1,98 @@
+[
+  {
+    "id": "generative-ai",
+    "name": "Generative AI",
+    "category": "digital",
+    "securityConcern": "National-security implications remain contested and incompletely defined",
+    "maturity": "Moderate",
+    "policyObjective": "Define",
+    "controlStatus": "Not controlled",
+    "foreignAvailability": "High",
+    "controllability": "Low",
+    "analysis": "Generative AI is one of the few truly new emerging technologies that could have profound security considerations. However, to date, consensus has not yet emerged regarding what the national security challenges of AI are. Resultingly, there are differing views on whether AI should be regulated at all and how non-US development of AI should be monitored and, where necessarily, restricted. Absent consensus, controls tend to focus on high performance computer rather than generative AI itself. A key theme of research should thus be understanding AI national security risks to inform the development of practical control approaches, where necessary."
+  },
+  {
+    "id": "high-performance-compute",
+    "name": "High-performance compute",
+    "category": "digital",
+    "securityConcern": "Foreign military-system development and AI-related compute",
+    "maturity": "High",
+    "policyObjective": "Slow · Facilitate",
+    "controlStatus": "Mixed / unilateral",
+    "foreignAvailability": "Partial",
+    "controllability": "Medium",
+    "analysis": "It has long been recognized that high-performance compute can contribute to foreign military system development meaning that compute has been controlled since the Cold War – albeit with evolving control parameters. In recent years, these controls have been recalibrated to address two concerns. The first is the fact that China was developing significant compute capability, including for strategic purposes, which drew on western origin technology. The second relates to AI-related compute. The result is that controlling compute is now a top priority for export controls globally. A key challenge, however, is that relevant processors such as Nvidia’s H200 GPUs do not appear on the export control lists of the main export control regime – the Wassenaar Arrangement. Instead, each country must decide unilaterally whether to control these items."
+  },
+  {
+    "id": "advanced-node-semiconductors",
+    "name": "Advanced-node semiconductors",
+    "category": "digital",
+    "securityConcern": "Enabling advanced AI and high-performance computing",
+    "maturity": "High",
+    "policyObjective": "Slow · Develop",
+    "controlStatus": "Mixed",
+    "foreignAvailability": "Growing",
+    "controllability": "Medium–High",
+    "analysis": "Advanced-node semiconductors are strategically significant principally because they enable other capabilities, including advanced AI and high-performance computing. Control leverage currently derives from China's inability to produce the most advanced processors and from continuing Western and allied advantages in semiconductor design and manufacturing technology. The objective of controls should therefore be to preserve meaningful technological lead time rather than attempt permanently to prevent Chinese semiconductor development. This requires concentrating restrictions on genuine technological chokepoints while avoiding unnecessarily broad controls that enlarge the commercial market available to Chinese producers and strengthen the economic case for accelerated indigenization."
+  },
+  {
+    "id": "quantum-computing",
+    "name": "Quantum computing",
+    "category": "quantum",
+    "securityConcern": "Potential cryptanalytic and broader national-security impact",
+    "maturity": "Low",
+    "policyObjective": "Develop · Slow",
+    "controlStatus": "Unilateral",
+    "foreignAvailability": "Material",
+    "controllability": "Medium",
+    "analysis": "Quantum computing has potentially profound national-security implications, most obviously if sufficiently capable systems can undermine current public-key cryptography, but the technology remains immature and the relevant capability thresholds continue to evolve. China is itself a leading quantum actor, which limits the extent to which Western export controls can prevent Chinese capability development. Control policy should therefore concentrate on scarce enabling technologies where meaningful leverage remains, while placing at least equal emphasis on maintaining and developing domestic and allied quantum capabilities. The appropriate objective is more plausibly to slow competitors and preserve relative advantage than to prevent quantum-computing development altogether."
+  },
+  {
+    "id": "quantum-radar",
+    "name": "Quantum radar",
+    "category": "quantum",
+    "securityConcern": "Potential detection of stealth aircraft",
+    "maturity": "Low",
+    "policyObjective": "Define · Develop",
+    "controlStatus": "Not separately controlled",
+    "foreignAvailability": "Uncertain",
+    "controllability": "Uncertain",
+    "analysis": "Quantum radar illustrates why emerging technologies should not automatically become export-control categories simply because they have potentially important military applications. Such systems could theoretically improve detection of stealth aircraft, and Chinese entities have claimed relevant capabilities, but the actual maturity and operational effectiveness of the technology remain uncertain. Before developing technology-specific restrictions, governments therefore need to establish whether a distinct and practically useful capability exists, identify the enabling technologies on which it depends, and determine whether those inputs remain subject to meaningful external leverage. For now, the appropriate emphasis is on definition, monitoring and development rather than broad technology denial."
+  },
+  {
+    "id": "hypersonic-missiles",
+    "name": "Hypersonic missiles",
+    "category": "weapons",
+    "securityConcern": "Missile and delivery-system capability",
+    "maturity": "Moderate",
+    "policyObjective": "Slow · Deny national-origin support",
+    "controlStatus": "Generally controlled",
+    "foreignAvailability": "High in China",
+    "controllability": "Medium",
+    "analysis": "Hypersonic missiles are clearly security-significant, but this does not mean that export controls can prevent their development by technologically advanced states. China already possesses substantial indigenous hypersonic capability and is developing relevant propulsion technologies, meaning Western controls are unlikely to stop its programme and may only marginally slow development. The realistic objectives are therefore to prevent Western-origin technology from contributing to Chinese advances, exploit any remaining dependencies where they exist, and maintain or improve allied capabilities. This is an important example of the distinction between preventing a capability and denying one's own technology to that capability."
+  },
+  {
+    "id": "lethal-autonomous-weapons",
+    "name": "Lethal autonomous weapons",
+    "category": "weapons",
+    "securityConcern": "Autonomy, use in conflict, misalignment and algorithmic failure",
+    "maturity": "Low",
+    "policyObjective": "Define · Norms · Prevent onward transfer",
+    "controlStatus": "Generally controlled",
+    "foreignAvailability": "Broad",
+    "controllability": "Low",
+    "analysis": "Lethal autonomous weapons present a different control problem because increasingly autonomous military systems may be assembled from widely available robotics, sensors, software and AI rather than from a discrete technology that can readily be placed on an export-control list. Depending on the definition used, autonomous weapons already exist, while more sophisticated systems are likely to emerge as general-purpose autonomy technologies improve. Traditional technology-denial approaches are therefore unlikely to be sufficient. Greater emphasis should be placed on defining which forms of autonomy are unacceptable, developing international norms around their development and use, and restricting transfers of complete military systems or clearly military-specific enabling capabilities rather than attempting to control general-purpose AI and robotics."
+  },
+  {
+    "id": "directed-energy-weapons",
+    "name": "Directed-energy weapons",
+    "category": "weapons",
+    "securityConcern": "Direct military application",
+    "maturity": "Moderate",
+    "policyObjective": "Deny national-origin support",
+    "controlStatus": "Generally controlled",
+    "foreignAvailability": "Material",
+    "controllability": "Medium",
+    "analysis": "Directed-energy weapons are directly military-relevant, but the value of export controls depends on the extent to which a target state remains dependent on external technologies. China has already invested substantially in directed-energy weapons, making it unrealistic to expect Western restrictions to prevent Chinese development of the overall capability. The more useful task is to identify particular components, materials, manufacturing processes or know-how for which external dependence remains and to prevent Western-origin technology from supporting those programmes. As with hypersonics, the appropriate objective is therefore primarily technology denial and exploitation of residual chokepoints rather than prevention of the capability itself."
+  }
+]
