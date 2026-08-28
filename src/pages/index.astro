@@ -82,12 +82,22 @@ const credentials = [
     </div>
   </section>
 
-  <section class="methods-preview" aria-labelledby="methods-preview-heading">
+  <section class="frameworks-preview" aria-labelledby="frameworks-preview-heading">
     <div class="container">
-      <SectionHeading title="AI and data methods" id="methods-preview-heading" description="I develop and evaluate AI-enabled analytical methods, knowledge structures and decision-support tools for international security, with particular attention to provenance, uncertainty, auditability and human accountability." />
-      <p>
-        <a href="/methods-and-tools/" class="btn btn--secondary">Explore methods and tools</a>
-      </p>
+      <SectionHeading
+        title="Frameworks and analytical contributions"
+        id="frameworks-preview-heading"
+        description="I develop analytical frameworks that make strategic-technology and international-security problems more explicit, comparable and usable in research, policy analysis and decision-making."
+      />
+      <article class="framework-feature card">
+        <p class="framework-status">Version 1.0 · August 2026</p>
+        <h3><a href="/strategic-technology-risk-control-framework/">Strategic Technology Risk & Control Framework</a></h3>
+        <p>A risk-to-control methodology for assessing security significance, foreign availability and practical controllability, and for distinguishing between capability denial and other policy objectives such as denying national-origin support.</p>
+        <div class="framework-links">
+          <a href="/strategic-technology-risk-control-framework/" class="btn btn--primary">Explore the framework</a>
+          <a href="/frameworks/" class="btn btn--secondary">View all frameworks</a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -96,6 +106,15 @@ const credentials = [
     project={featuredProject}
     essay={featuredEssay}
   />
+
+  <section class="methods-preview" aria-labelledby="methods-preview-heading">
+    <div class="container">
+      <SectionHeading title="Methods and tools" id="methods-preview-heading" description="My research combines policy and institutional analysis with archival, technical and supply-chain methods. I also develop and evaluate AI-enabled analytical methods, knowledge structures and decision-support tools, with particular attention to provenance, uncertainty, auditability and human accountability." />
+      <p>
+        <a href="/methods-and-tools/" class="btn btn--secondary">Explore methods and tools</a>
+      </p>
+    </div>
+  </section>
 
   <section class="current-research" aria-labelledby="current-research-heading">
     <div class="container">
@@ -150,6 +169,7 @@ const credentials = [
   }
 
   .research-areas,
+  .frameworks-preview,
   .methods-preview,
   .current-research,
   .recent-essays,
@@ -162,6 +182,45 @@ const credentials = [
   .recent-essays {
     background: #fff;
     border-block: 1px solid var(--border);
+  }
+
+  .frameworks-preview {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .framework-feature {
+    max-width: 58rem;
+    margin-top: var(--space-l);
+    border-left: 4px solid var(--copper);
+  }
+
+  .framework-feature h3 {
+    margin-top: 0;
+    font-size: var(--step-2);
+  }
+
+  .framework-feature h3 a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .framework-feature h3 a:hover,
+  .framework-feature h3 a:focus {
+    color: var(--teal);
+    text-decoration: underline;
+  }
+
+  .framework-status {
+    color: var(--muted);
+    font-size: var(--step--1);
+    margin-bottom: var(--space-xs);
+  }
+
+  .framework-links,
+  .engagement-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
   }
 
   .research-grid,
@@ -180,12 +239,6 @@ const credentials = [
     .research-grid {
       grid-template-columns: repeat(3, 1fr);
     }
-  }
-
-  .engagement-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-s);
   }
 
   .experience {
