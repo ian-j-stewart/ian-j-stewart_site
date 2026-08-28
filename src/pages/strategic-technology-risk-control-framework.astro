@@ -9,6 +9,7 @@ const settings = await getEntry('settings', 'site');
 const siteUrl = settings?.data.siteUrl ?? 'https://ian-j-stewart.com';
 const personId = `${siteUrl}#person`;
 const websiteId = `${siteUrl}#website`;
+const contact = settings?.data.contact;
 const pageStructuredData = {
   '@id': `${siteUrl}/strategic-technology-risk-control-framework/#main-entity`,
   '@type': 'ScholarlyArticle',
@@ -162,22 +163,14 @@ const pageStructuredData = {
       </div>
     </section>
 
-    <section class="section-block">
-      <p class="eyebrow">Worked application</p>
-      <h2>Advanced AI compute</h2>
-      <div class="worked-grid">
-        <article class="card">
-          <h3>Assessment logic</h3>
-          <p><strong>Technology.</strong> Specialized GPUs and assemblies used for large-scale model training and other high-performance applications.</p>
-          <p><strong>Security concern.</strong> The relevant risk depends on whether compute creates a genuinely new capability or primarily increases scale and efficiency; on whether it is used for training, inference or other strategic computation; and on recipient and location.</p>
-          <p><strong>Policy objective.</strong> Slow access to the highest-value strategic compute while facilitating lower-risk uses where safeguards can provide adequate assurance.</p>
-          <p><strong>Foreign availability.</strong> Control leverage depends on the remaining performance and production gap between Western-origin and Chinese alternatives. As that gap narrows, the justification for access-denial controls weakens unless the measure still imposes meaningful delay or cost.</p>
-          <p><strong>Controllability.</strong> Specialist high-value GPUs are more controllable than ubiquitous processors, but remote access, diversion, firmware circumvention and inability to constrain workloads reduce assurance.</p>
-          <p><strong>Control architecture.</strong> Item controls + recipient or end-use controls + organization-based due diligence + technical verification + monitoring.</p>
-        </article>
-        <article class="profile-card"><h3>Illustrative profile</h3><dl><div><dt>Security significance</dt><dd>High</dd></div><div><dt>Technical specificity</dt><dd>High</dd></div><div><dt>Chinese availability</dt><dd>Partial / growing</dd></div><div><dt>Supplier-coalition leverage</dt><dd>Material</dd></div><div><dt>Verification feasibility</dt><dd>Medium</dd></div><div><dt>Indigenization pressure</dt><dd>High</dd></div><div><dt>Overall controllability</dt><dd>Medium</dd></div></dl></article>
+    <section class="section-block cta-section" aria-labelledby="analysis-heading">
+      <p class="eyebrow">Apply the framework</p>
+      <h2 id="analysis-heading">Need analysis of a specific technology or control question?</h2>
+      <p>I undertake selected research and advisory work applying this framework to emerging technologies, strategic supply chains, companies, programmes, and policy questions. This can include assessing security significance, foreign availability, control feasibility, residual dependencies, and appropriate control approaches.</p>
+      <div class="cta-actions">
+        {contact?.advisoryEmail && <a href={`mailto:${contact.advisoryEmail}`} class="btn btn--primary">Discuss an analysis</a>}
+        {contact?.academicEmail && <a href={`mailto:${contact.academicEmail}`} class="btn btn--secondary">Research collaboration</a>}
       </div>
-      <div class="method-note"><p class="eyebrow">Methodological note</p><h3>Interpretation, not mechanical scoring</h3><p>The framework deliberately avoids a single numerical risk score. Judgments about strategic significance, foreign availability and controllability involve uncertainty and can change quickly as technologies mature, suppliers emerge and controls evolve. The value of the framework is to make those judgments explicit, comparable and contestable.</p></div>
     </section>
   </div>
 </Base>
@@ -233,12 +226,11 @@ const pageStructuredData = {
   .meta { display: flex; flex-wrap: wrap; gap: var(--space-s); color: var(--muted); font-size: var(--step--1); margin-top: var(--space-l); }
   .meta span + span::before { content: '·'; margin-right: var(--space-s); }
   .proposition { font-family: var(--font-serif); font-size: var(--step-2); color: var(--navy); max-width: var(--max-prose); margin-block: var(--space-2xl); padding: var(--space-l); border-left: 4px solid var(--copper); background: #fff; }
-  .contribution-grid, .three-grid, .two-grid, .four-grid, .worked-grid { display: grid; gap: var(--space-l); margin-top: var(--space-l); }
+  .contribution-grid, .three-grid, .two-grid, .four-grid { display: grid; gap: var(--space-l); margin-top: var(--space-l); }
   .contribution-grid { grid-template-columns: 1.25fr .75fr; }
   .three-grid { grid-template-columns: repeat(3, 1fr); }
   .two-grid { grid-template-columns: repeat(2, 1fr); }
   .four-grid { grid-template-columns: repeat(4, 1fr); }
-  .worked-grid { grid-template-columns: 1.2fr .8fr; }
   .citation { font-family: var(--font-serif); font-size: var(--step-1); color: var(--navy); }
   .small { color: var(--muted); font-size: var(--step--1); }
   .section-block { margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--border); }
@@ -269,12 +261,9 @@ const pageStructuredData = {
   .analysis { max-width: 60rem; padding: var(--space-m); }
   .analysis > p:first-child { font-family: var(--font-serif); font-size: var(--step-1); }
   .kg { border-top: 1px solid var(--border); padding-top: var(--space-m); color: var(--muted); font-size: var(--step--1); }
-  .profile-card { background: var(--navy); color: var(--off-white); padding: var(--space-l); }
-  .profile-card h3 { color: var(--off-white); }
-  .profile-card dl { margin: 0; }
-  .profile-card dl div { display: flex; justify-content: space-between; gap: var(--space-m); padding-block: .6rem; border-top: 1px solid rgba(255,255,255,.2); }
-  .profile-card dd { margin: 0; font-weight: 700; }
-  .method-note { margin-top: var(--space-l); padding: var(--space-l); background: #fff; border: 1px solid var(--border); }
-  @media (max-width: 900px) { .contribution-grid, .worked-grid, .three-grid, .four-grid { grid-template-columns: 1fr 1fr; } .steps { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 680px) { .contribution-grid, .worked-grid, .three-grid, .two-grid, .four-grid, .steps, .decision-grid { grid-template-columns: 1fr; } .non-assistance { padding: var(--space-l); } }
+  .cta-section { background: #fff; border: 1px solid var(--border); padding: var(--space-xl); }
+  .cta-section > p:not(.eyebrow) { max-width: var(--max-prose); color: var(--muted); }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: var(--space-s); margin-top: var(--space-l); }
+  @media (max-width: 900px) { .contribution-grid, .three-grid, .four-grid { grid-template-columns: 1fr 1fr; } .steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 680px) { .contribution-grid, .three-grid, .two-grid, .four-grid, .steps, .decision-grid { grid-template-columns: 1fr; } .non-assistance, .cta-section { padding: var(--space-l); } }
 </style>
