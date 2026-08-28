@@ -16,6 +16,10 @@ const linkSchema = z.object({
   href: z.string(),
 });
 
+const navigationSchema = linkSchema.extend({
+  children: z.array(linkSchema).optional(),
+});
+
 const settings = defineCollection({
   loader: glob({ pattern: 'site.yml', base: './src/content/settings' }),
   schema: z.object({
@@ -35,7 +39,7 @@ const settings = defineCollection({
       linkedin: z.string().url().default('https://www.linkedin.com/in/drianjstewart/'),
     }),
     social: z.array(z.object({ platform: z.string(), url: z.string().url() })).default([]),
-    navigation: z.array(linkSchema).default([]),
+    navigation: z.array(navigationSchema).default([]),
     person: personSchema.default({}),
     footer: z.object({
       text: z.string().default('This is a personal website. Views expressed here do not necessarily represent those of current or former employers or affiliated institutions.'),
