@@ -9,10 +9,10 @@ primaryButton:
   label: "Explore the research"
   href: "/research/"
 secondaryButton:
-  label: "View publications"
-  href: "/publications/"
+  label: "View frameworks"
+  href: "/frameworks/"
 ---
 
-I am an international-security scholar and practitioner working on the governance of strategically consequential technologies. My research spans nuclear and dual-use technology, export controls, artificial intelligence and compute, semiconductors, research security, sanctions and strategic supply chains. Across these areas, I focus particularly on the relationship between policy objectives and practical implementation.
+I am an international-security scholar and practitioner working on the governance of strategically consequential technologies. My research spans nuclear and dual-use technology, export controls, artificial intelligence and compute, semiconductors, research security, sanctions and strategic supply chains. Across these areas, I develop analytical frameworks and implementation methods that connect policy objectives to the practical questions of risk, control, verification and institutional decision-making.
 
 I am Executive Director of the Washington, DC office of the [James Martin Center for Nonproliferation Studies](https://www.middlebury.edu/institute/people/ian-stewart).
