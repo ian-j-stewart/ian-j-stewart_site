@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Personal academic website for Dr Ian J. Stewart.",
+  "description": "Personal and professional website for Ian J. Stewart.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
