@@ -4,7 +4,6 @@ import Hero from '../components/Hero.astro';
 import ResearchThemeCard from '../components/ResearchThemeCard.astro';
 import FeaturedWork from '../components/FeaturedWork.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import EssayCard from '../components/EssayCard.astro';
 import CredentialStrip from '../components/CredentialStrip.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { getEntry, getCollection, render } from 'astro:content';
@@ -23,10 +22,6 @@ const themes = (await getCollection('researchThemes', (t) => !t.data.draft)).sor
 
 const allProjects = (await getCollection('projects', (p) => !p.data.draft)).sort(
   (a, b) => a.data.order - b.data.order
-);
-
-const recentEssays = (await getCollection('essays', (e) => !e.data.draft)).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
 
 const featuredPublication = settings.data.featured?.publication
@@ -73,7 +68,7 @@ const credentials = [
 
   <section class="research-areas" aria-labelledby="research-areas-heading">
     <div class="container">
-      <SectionHeading title="Research areas" description="Three intersecting areas of inquiry into the governance of strategic technology." />
+      <SectionHeading title="Areas of work" description="The main areas in which I work across research, policy and practice." />
       <div class="research-grid">
         {themes.map((theme) => (
           <ResearchThemeCard theme={theme} />
@@ -133,19 +128,6 @@ const credentials = [
       <CredentialStrip items={credentials} />
     </div>
   </section>
-
-  {recentEssays.length > 0 && (
-    <section class="recent-essays" aria-labelledby="recent-essays-heading">
-      <div class="container">
-        <SectionHeading title="Recent essays" description="Occasional essays on strategic technology and international security." />
-        <div class="essay-grid">
-          {recentEssays.slice(0, 3).map((essay) => (
-            <EssayCard essay={essay} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 
   <section class="engagement-preview" aria-labelledby="engagement-heading">
     <div class="container">
