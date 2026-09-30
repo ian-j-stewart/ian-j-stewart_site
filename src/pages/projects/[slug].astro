@@ -18,7 +18,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
-const statusLabel = data.status === 'Developing' ? 'Developing research agenda' : data.status;
+const statusLabel = data.kind === 'Platform' ? 'Platform' : (data.status === 'Developing' ? 'Developing research agenda' : data.status);
 
 const allPublications = await getCollection('publications', (p) => !p.data.draft);
 const allEssays = await getCollection('essays', (e) => !e.data.draft);
@@ -33,7 +33,7 @@ const relatedEssays = data.relatedEssays
 
 <Base title={data.title} description={data.summary}>
   <div class="container" style="padding-block: var(--space-2xl);">
-    <Breadcrumbs items={[{ label: 'Current Research', href: '/projects/' }, { label: data.title, href: `/projects/${entry.id}/` }]} />
+    <Breadcrumbs items={data.kind === 'Platform' ? [{ label: 'Home', href: '/' }, { label: data.title, href: `/projects/${entry.id}/` }] : [{ label: 'Current Research', href: '/projects/' }, { label: data.title, href: `/projects/${entry.id}/` }]} />
 
     <h1>{data.title}</h1>
     <p class="status">{statusLabel}</p>
@@ -78,12 +78,12 @@ const relatedEssays = data.relatedEssays
       </section>
     )}
 
-    <section class="collaboration" aria-labelledby="collaboration-heading">
+    {data.kind !== 'Platform' && <section class="collaboration" aria-labelledby="collaboration-heading">
       <h2 id="collaboration-heading">Research collaboration</h2>
       <p>
         If you are interested in this research area, see the <a href="/engagement/#research">engagement</a> page or get in touch via <a href="https://www.linkedin.com/in/drianjstewart/" class="external" rel="external noopener">LinkedIn</a>.
       </p>
-    </section>
+    </section>}
 
     {(entry.data.outputs.length > 0 || entry.data.links.length > 0) && (
       <aside class="project-meta">
