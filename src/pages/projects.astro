@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 const pageTitle = 'Current Research';
 const pageDesc = 'Current research connecting international-security scholarship with the institutional and technical challenges involved in governing strategic technologies.';
 
-const allProjects = (await getCollection('projects', (p) => !p.data.draft)).sort(
+const allProjects = (await getCollection('projects', (p) => !p.data.draft && !p.data.hideFromProjects)).sort(
   (a, b) => a.data.order - b.data.order
 );
 

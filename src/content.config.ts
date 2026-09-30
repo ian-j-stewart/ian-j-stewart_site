@@ -161,6 +161,8 @@ const projects = defineCollection({
     summary: z.string(),
     proposition: z.string().optional(),
     status: z.enum(['Current', 'Developing', 'Completed', 'Working paper in development', 'Article project', 'Longer-term research programme', 'Book concept', 'Active institutional research']).default('Developing'),
+    kind: z.enum(['Research', 'Platform']).default('Research'),
+    hideFromProjects: z.boolean().default(false),
     themes: z.array(z.string()).default([]),
     startDate: z.coerce.date().optional(),
     endDate: z.coerce.date().optional(),

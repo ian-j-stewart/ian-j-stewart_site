@@ -1,5 +1,5 @@
 siteTitle: Ian J. Stewart
-siteDescription: Ian J. Stewart is an international-security scholar and practitioner working on strategic technology, export controls, AI and compute, research security, semiconductors, sanctions, supply chains and nuclear nonproliferation.
+siteDescription: Ian J. Stewart is an international-security scholar, practitioner and founder working on strategic technology, export controls, AI and compute, research security, semiconductors, sanctions, supply chains and nuclear nonproliferation.
 siteUrl: https://ian-j-stewart.com
 defaultImage: /og-default.jpg
 author: Ian J. Stewart
@@ -32,7 +32,7 @@ footer:
   copyright: Ian J. Stewart
 featured:
   publication: international-nuclear-export-controls-and-non-proliferation
-  project: compute-governance
+  project: insight-platform
   essay: ""
 analytics:
   cloudflareToken: ""

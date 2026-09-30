@@ -26,7 +26,7 @@ const { publication, project, essay } = Astro.props;
       )}
       {project && (
         <div>
-          <p class="featured-kind">Project</p>
+          <p class="featured-kind">{project.data.kind === "Platform" ? "Platform" : "Project"}</p>
           <ProjectCard project={project} />
         </div>
       )}
