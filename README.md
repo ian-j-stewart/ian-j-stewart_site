@@ -1,6 +1,6 @@
 # ian-j-stewart.com
 
-Personal academic website for Dr Ian J. Stewart — an international-security scholar researching the governance of strategic technology, including export controls, AI and compute, semiconductors, research security, nuclear nonproliferation and deterrence.
+Personal and professional profile site for Ian J. Stewart — an international-security scholar and practitioner working on strategic technology, including export controls, AI and compute, semiconductors, research security, sanctions, supply chains and nuclear nonproliferation.
 
 ## Technology
 
