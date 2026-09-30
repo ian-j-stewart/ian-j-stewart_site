@@ -1,5 +1,5 @@
 siteTitle: Ian J. Stewart
-siteDescription: Ian J. Stewart is an international-security scholar and practitioner researching strategic technology governance, AI and compute, export controls, research security, semiconductors, nuclear nonproliferation and deterrence.
+siteDescription: Ian J. Stewart is an international-security scholar and practitioner working on strategic technology, export controls, AI and compute, research security, semiconductors, sanctions, supply chains and nuclear nonproliferation.
 siteUrl: https://ian-j-stewart.com
 defaultImage: /og-default.jpg
 author: Ian J. Stewart
@@ -13,21 +13,12 @@ contact:
   advisoryEmail: ian@fusionlabs.info
 social: []
 navigation:
-  - label: Research
+  - label: Areas of work
     href: /research/
-  - label: Frameworks
-    href: /frameworks/
-    children:
-      - label: Strategic Technology Risk & Control Framework
-        href: /strategic-technology-risk-control-framework/
   - label: Publications
     href: /publications/
-  - label: Current Research
+  - label: Current research
     href: /projects/
-  - label: Essays
-    href: /essays/
-  - label: Engagement
-    href: /engagement/
   - label: About
     href: /about/
 person:
